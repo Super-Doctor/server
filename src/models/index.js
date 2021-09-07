@@ -8,7 +8,7 @@ const patientModel = require('./patient-model');
 const doctorModel = require('./doctor-model');
 const roleModel = require('./roles-model');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL;
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
 
 const sequelize = new Sequelize (SQL_DATABASE_URL, {});
 

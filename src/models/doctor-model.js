@@ -5,7 +5,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const uuid = require('uuid').v4;
 const bcrypt = require('bcrypt');
-const { Sequelize, DataTypes } = require('sequelize/types');
+const { Sequelize, DataTypes } = require('sequelize');
 const SECRET = process.env.SECRET;
 
 const doctorsModel = (sequelize, DataTypes) => {
@@ -27,6 +27,7 @@ const doctorsModel = (sequelize, DataTypes) => {
 
         id: {
             type: DataTypes.INTEGER,
+            primaryKey: true
         },
 
 
