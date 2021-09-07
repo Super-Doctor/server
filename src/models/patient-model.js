@@ -25,7 +25,7 @@ const patientsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        id: {
+        pId: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
