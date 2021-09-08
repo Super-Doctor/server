@@ -25,11 +25,6 @@ const patientsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        pId: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
-        },
-
         token: {
             type: DataTypes.VIRTUAL,
             get() {

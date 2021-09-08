@@ -6,7 +6,8 @@ require('dotenv').config();
 const {Sequelize , DataTypes} = require('sequelize');
 
 const patientModel = require('./patient-model');
-const patientRecord=require('./patientInfoModel');
+const patientRecord = require('./patientInfoModel');
+const patientMedicalRecord = require('./patient-medical');
 const doctorModel = require('./doctor-model');
 const roleModel = require('./roles-model');
 
@@ -17,7 +18,8 @@ const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://gxvtzktj:Z0
 const sequelize = new Sequelize (SQL_DATABASE_URL, {});
 
 const patient = patientModel(sequelize , DataTypes);
-const patientInfo=patientRecord(sequelize,DataTypes);
+const patientInfo = patientRecord(sequelize,DataTypes);
+const patientMedicalInfo = patientMedicalRecord(sequelize,DataTypes);
 const doctor = doctorModel(sequelize, DataTypes);
 const role = roleModel(sequelize, DataTypes);
 
@@ -33,14 +35,19 @@ role.hasMany(patient, { sourceKey: 'id', foreignKey: 'roleId' });
 patient.belongsTo(role, { foreignKey: 'roleId', targetKey: 'id' });
 doctor.belongsTo(role, { foreignKey: 'roleId', targetKey: 'id' });
 
-//relations between patientInfo record and patients
+//relations between (patientInfo & patientMedicalInfo) and patients
 
-patient.hasOne(patientInfo,{  foreignKey: 'pId' });
-// patientInfo.belongsTo(patient,{  targetKey: 'id' });
+patient.hasOne(patientInfo,{  foreignKey: 'patientId' });
 
-const patientCollection=new collections(patient);
-const doctorCollection=new collections(doctor);
-const patientInfoCollection= new collections(patientInfo);
+patient.hasMany(patientMedicalInfo , {sourceKey: 'id', foreignKey: 'patientId' });
+patientMedicalInfo.belongsTo(patient , { foreignKey: 'patientId', targetKey: 'id'});
+
+
+const patientCollection = new collections(patient);
+const doctorCollection = new collections(doctor);
+const patientInfoCollection = new collections(patientInfo);
+const patientMedicalCollection = new collections(patientMedicalInfo);
+const roleCollection = new collections(role);
 
 
 
@@ -48,6 +55,8 @@ module.exports = {
     db : sequelize,
     Patient : patientCollection,
     PatientInfot:patientInfoCollection,
-    Doctor : doctorCollection
+    PatientMedicalInfo : patientMedicalCollection,
+    Doctor : doctorCollection,
+    Role : roleCollection
 }
 
