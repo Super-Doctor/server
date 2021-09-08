@@ -10,7 +10,7 @@ const SECRET = process.env.SECRET;
 
 const doctorsModel = (sequelize, DataTypes) => {
     const doctorModel = sequelize.define('doctors', {
-        doctorName: {
+        userName: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -26,7 +26,7 @@ const doctorsModel = (sequelize, DataTypes) => {
         },
 
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true
         },
 
@@ -34,7 +34,7 @@ const doctorsModel = (sequelize, DataTypes) => {
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ doctorName: this.doctorName }, SECRET)
+                return jwt.sign({ email: this.email }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);

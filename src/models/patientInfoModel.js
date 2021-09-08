@@ -1,4 +1,5 @@
 const patientInfoModel=(sequelize,DataTypes)=>sequelize.define('patientInfo',{
+  
     patientId: {
         type:DataTypes.INTEGER,
         allowNull:false,
