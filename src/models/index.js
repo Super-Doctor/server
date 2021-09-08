@@ -17,6 +17,7 @@ const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres@lo
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
 // postgres://postgres@localhost:5432/hospital
 
+
 const sequelize = new Sequelize (SQL_DATABASE_URL, {});
 
 const patient = patientModel(sequelize , DataTypes);
