@@ -42,11 +42,11 @@ authRouter.post('/signup/:role', async (req, res, next) => {
 
 // this is for signin
 authRouter.get('/signin', basicauth, (req, res) => {
-    const user = {
-        user: req.user,
-        token: req.user.token
+    const patient = {
+        patient: req.patient,
+        token: req.patient.token
     }
-    res.status(200).json(user);
+    res.status(200).json(patient);
 });
 
 authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {

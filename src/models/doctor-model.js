@@ -10,9 +10,12 @@ const SECRET = process.env.SECRET;
 
 const doctorsModel = (sequelize, DataTypes) => {
     const doctorModel = sequelize.define('doctors', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true
+        },
         userName: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
 
         email: {
@@ -25,10 +28,7 @@ const doctorsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        id: {
-            type: DataTypes.STRING,
-            primaryKey: true
-        },
+        
 
 
         token: {
@@ -54,8 +54,8 @@ const doctorsModel = (sequelize, DataTypes) => {
     doctorModel.beforeCreate(async (doctor) => {
         let hashedPassword = await bcrypt.hash(doctor.password, 10);
         doctor.password = hashedPassword;
-        let id = uuid();
-        doctor.id = id;
+        // let id = uuid();
+        // doctor.id = id;
     });
 
     doctorModel.authenticateBasic = async function (email, password) {
