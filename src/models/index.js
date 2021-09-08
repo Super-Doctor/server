@@ -13,7 +13,7 @@ const roleModel = require('./roles-model');
 
 const collections=require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres:0000@localhost:5432/tests";
 
 const sequelize = new Sequelize (SQL_DATABASE_URL, {});
 
