@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
     console.log(email);
     try {
         console.log(';ccccc',email);
-        req.patient = await Patient.authenticateBasic(email, password );
+        req.user = await Patient.authenticateBasic(email, password );
         console.log(';cccggggggggggggcc',email);
 
         next();

@@ -14,7 +14,7 @@ authRouter.post('/signup/:role', async (req, res, next) => {
     const userInfo = req.body;
     console.log(userInfo);
 
-    if (req.params.role == 'doctor') {
+    if (req.params.role == 2 || req.params.role == 'doctor' ) {
         try {
             const doctorRecord = await Doctor.create(userInfo);
             const doctorOutput = {
@@ -42,11 +42,11 @@ authRouter.post('/signup/:role', async (req, res, next) => {
 
 // this is for signin
 authRouter.get('/signin', basicauth, (req, res) => {
-    const patient = {
-        patient: req.patient,
-        token: req.patient.token
+    const user = {
+        user: req.user,
+        token: req.user.token
     }
-    res.status(200).json(patient);
+    res.status(200).json(user);
 });
 
 authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {
