@@ -15,10 +15,10 @@ const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientM
         allowNull: false,
     },
 
-    doctorName : {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    // doctorName : {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    // },
 
     doctorReport : {
         type: DataTypes.STRING,

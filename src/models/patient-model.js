@@ -6,10 +6,15 @@ const jwt = require('jsonwebtoken');
 const uuid = require('uuid').v4;
 const bcrypt = require('bcrypt');
 const { Sequelize,DataTypes } = require('sequelize');
-const SECRET = process.env.SECRET;
+const SECRET = process.env.SECRET || "my_secret";
 
 const patientsModel = (sequelize, DataTypes) => {
     const patientModel = sequelize.define('patients', {
+        id:{
+            type: DataTypes.STRING,
+            // allowNull: false,
+            primaryKey: true
+        },
         userName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -45,6 +50,13 @@ const patientsModel = (sequelize, DataTypes) => {
         
         doctorId : {
             type: DataTypes.INTEGER,
+            allowNull: false,
+            // foreignKey: true,
+            // references : {
+            //     model : 'doctors',
+            //     key : 'id'
+            // }
+
         }
         
 
