@@ -1,9 +1,15 @@
 const patientInfoModel=(sequelize,DataTypes)=>sequelize.define('patientInfo',{
+  id:{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+    primaryKey: true
+
+  },
   
     patientId: {
         type:DataTypes.INTEGER,
         allowNull:false,
-        primaryKey: true
+        // primaryKey: true
       },
     
       address: {

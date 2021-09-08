@@ -1,4 +1,10 @@
 const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientMedicalInfo', {
+    id:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+
+    },
 
     checkInDate: {
         type: DataTypes.STRING,
