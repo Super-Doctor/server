@@ -4,7 +4,7 @@ const express = require('express');
 const authRouter = express.Router();
 
 
-const { Doctor, Patient } = require('../models/index');
+const { Doctor, Patient,Role } = require('../models/index');
 const basicauth = require('../middlewares/basic-auth');
 const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
@@ -41,11 +41,11 @@ authRouter.post('/signup/:role', async (req, res, next) => {
 });
 
 // this is for signin
-authRouter.get('/signin', basicauth, (req, res) => {
-    const user = {
-        user: req.user,
-        token: req.user.token
-    }
+authRouter.get('/signin/:role', basicauth, async (req, res) => {
+    const user =  req.user
+        // capabilities:capability.capabilities
+        // token: req.user.token
+    
     res.status(200).json(user);
 });
 
