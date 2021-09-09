@@ -13,7 +13,7 @@ const roleModel = require('./roles-model');
 
 const collections=require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres@localhost:5432/hospital"
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres@localhost:5432/HospitalProj"
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
@@ -58,10 +58,14 @@ const roleCollection = new collections(role);
 
 module.exports = {
     db : sequelize,
+    patient:patient,
+    doctor:doctor,
     Patient : patientCollection,
-    PatientInfot:patientInfoCollection,
+    PatientInfo:patientInfoCollection,
+    patientInfos:patientInfo,
     PatientMedicalInfo : patientMedicalCollection,
+    patientMedicalInfos:patientMedicalInfo,
     Doctor : doctorCollection,
-    Role : roleCollection
+    Role : role
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { User } = require('../models/index');
+const { doctor, patient,Role  } = require('../models/index');
 
 module.exports =async (req, res, next) => {
     if (!req.headers.authorization) {
@@ -10,7 +10,7 @@ module.exports =async (req, res, next) => {
     try {
         
         let token = req.headers.authorization.split(' ').pop();
-        let validUser = await User.authenticateToken(token);
+        let validUser = await patient.authenticateToken(token);
         console.log(validUser);
         req.user = validUser;
         req.token = validUser.token;

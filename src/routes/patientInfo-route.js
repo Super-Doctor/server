@@ -4,15 +4,15 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const { doctors } = require('../models/doctor-model');
-const { Role } = require('../models/index')
+const { patientInfos } = require('../models/index')
 const basicAuth = require('../middlewares/basic-auth')
 const bearerAuth = require('../middlewares/bearer-auth')
 
-authRouter.post('/addRole', async (req, res, next) => {
+authRouter.post('/addInfo', async (req, res, next) => {
   try {
-    let roleRecord = await Role.create(req.body);
+    let infoRecord = await patientInfos.create(req.body);
     const output = {
-      Role: roleRecord,
+        patientInfos: infoRecord,
     };
     res.status(200).json(output);
   } catch (e) {
@@ -22,15 +22,13 @@ authRouter.post('/addRole', async (req, res, next) => {
 
 
 
-authRouter.get('/roles', async (req, res, next) => {
-  const roles = await Role.findAll({});
+authRouter.get('/info', async (req, res, next) => {
+  const info = await patientInfos.findAll({});
  
 
-  res.status(200).json(roles);
+  res.status(200).json(info);
 });
-authRouter.get('/', async (req, res, next) => {
-  res.status(200).send('server is working :) :)');
-});
+
 
 
 
