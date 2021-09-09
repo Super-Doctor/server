@@ -3,59 +3,78 @@
 const express = require('express');
 const router = express.Router();
 
-// const acl = require('../middleware/acl')
-// const basicAuth = require('../middleware/basic-auth')
-// const bearerAuth = require('../middleware/bearer-auth')
+const uuid = require('uuid').v4;
+
+const {  PatientMedicalInfo,PatientInfo,Patient,Doctor } = require('../models/index');
+const basicauth = require('../middlewares/basic-auth');
+const bearerAuth = require('../middlewares/bearer-auth');
+const permissions = require('../middlewares/acl');
 
 
-const dataModules = require('../models');
-
-router.param('model', (req, res, next) => {
-    const modelName = req.params.model;
-    if (dataModules[modelName]) {
-      console.log('mode;;;;;;',modelName);
-      req.model = dataModules[modelName];
-      next();
-    } else {
-      // next('Invalid Model');
-      res.status(404).send('Not Found')
+router.post('/addMedicalInfo/:role',bearerAuth,permissions('create'),  async (req, res, next) => {
+    let medicalInfo = req.body;
+    try {
+        const medicalRecord = await PatientMedicalInfo.create(medicalInfo);
+        const output = {
+            medicalInformation: medicalRecord
+        }
+        res.status(201).json(output);
+    } catch (e) {
+        next(e.message)
     }
-  });
+});
+// router.get('/allmedicalinfos',bearerAuth,permissions('read-medicalinfo'), async (req, res, next) => {
 
-router.get('/:model', handleGetAll);
-// router.get('/:model/:id', handleGetOne);
-// router.post('/:model',bearerAuth,acl('create'),handleCreate);
-// router.put('/:model/:id',handleUpdate);
-// router.delete('/:model/:id', handleDelete);
-// router.patch('/:model/:id',bearerAuth, handleUpdate);
+router.get('/allmedicalinfos', async (req, res, next) => {
 
+    const medicalRecord = await PatientMedicalInfo.get();
+    const output = {
+        medicalInformation: medicalRecord
+    }
+    res.status(201).json(output);
+});
+// router.get('/medicalinfos/:id',bearerAuth,permissions('read'), async (req, res, next) => {
 
-async function handleGetAll (req, res) {
-    console.log(req.model)
-    let allRecords = await req.model.get();
-    res.status(200).json(allRecords);
-}
-
-async function handleGetOne(req, res) {  
-    const id = req.params.id;  
-    let theRecord = await req.model.get(id)  
-    res.status(200).json(theRecord);}
-
-async function handleCreate(req, res) {  
-    let obj = req.body;  
-    let newRecord = await req.model.create(obj);  
-    res.status(201).json(newRecord);}
-
-async function handleUpdate(req, res) {  
-    const id = req.params.id;  
-    const obj = req.body;  
-    let updatedRecord = await req.model.update(id, obj)  
-    res.status(200).json(updatedRecord);}
-
-async function handleDelete(req, res) {  
+router.get('/medicalinfos/:id/:role', async (req, res, next) => {
     let id = req.params.id;  
-    let deletedRecord = await req.model.delete(id);  
-    res.status(200).json(deletedRecord);}
+    id=String(id);
+    let medicalRecord = await Patient.get(id)  
+    let medicalRecord2 = await PatientInfo.get()  
+
+    const allInfo={
+        patientInfo:medicalRecord,
+        // allmedicalInfo:medicalRecord2
+    }
+    
+    res.status(200).json(allInfo);
+
+});
+
+router.delete('/deleteMedicalInfo/:id/:role',bearerAuth, permissions('delete-medicalRecord'), async (req, res, next) => {
+    const infoId = Number(req.params.id)
+    console.log(infoId);
+    await PatientMedicalInfo.delete(infoId)
+
+    const medicalRecord = await PatientMedicalInfo.get();
+    const output = {
+        medicalInformation: medicalRecord
+    }
+    res.status(201).json(output);
+});
+
+
+router.put('/updateMedicalInfo/:id/:role',bearerAuth, permissions('update-medicalRecord'), async (req, res, next) => {
+    const medicalInfo = req.body;
+    const infoId = Number(req.params.id);
+
+
+    const medicalRecord = await PatientMedicalInfo.update(infoId,medicalInfo);
+    const output = {
+        medicalInformation: medicalRecord
+    }
+    res.status(201).json(output);
+});
+
 
 
 module.exports = router;

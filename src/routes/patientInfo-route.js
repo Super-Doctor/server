@@ -4,7 +4,7 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const { doctors } = require('../models/doctor-model');
-const { patientInfos } = require('../models/index')
+const { patientInfos,PatientInfo } = require('../models/index')
 const basicAuth = require('../middlewares/basic-auth')
 const bearerAuth = require('../middlewares/bearer-auth')
 

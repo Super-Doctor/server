@@ -7,9 +7,10 @@ const {Sequelize , DataTypes} = require('sequelize');
 
 const patientModel = require('./patient-model');
 const patientRecord = require('./patientInfoModel');
-const patientMedicalRecord = require('./patient-medical');
+const patientMedicalRecord = require('./patientMedical');
 const doctorModel = require('./doctor-model');
 const roleModel = require('./roles-model');
+const presecriptionModel=require('../models/presecriptionModel');
 
 const collections=require('./library/collection');
 
@@ -27,11 +28,15 @@ const patientInfo = patientRecord(sequelize,DataTypes);
 const patientMedicalInfo = patientMedicalRecord(sequelize,DataTypes);
 const doctor = doctorModel(sequelize, DataTypes);
 const role = roleModel(sequelize, DataTypes);
+const prescription=presecriptionModel(sequelize, DataTypes);
 
 // To create the relations
 //relations between doctor and patients
 doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
 patient.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
+
+doctor.hasMany(prescription, { sourceKey: 'id', foreignKey: 'doctorId' });
+prescription.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
 
 //relations between roles with doctor and patients
 
@@ -53,6 +58,7 @@ const doctorCollection = new collections(doctor);
 const patientInfoCollection = new collections(patientInfo);
 const patientMedicalCollection = new collections(patientMedicalInfo);
 const roleCollection = new collections(role);
+const prescriptionCollection=new collections(prescription);
 
 
 
@@ -64,6 +70,8 @@ module.exports = {
     PatientInfo:patientInfoCollection,
     patientInfos:patientInfo,
     PatientMedicalInfo : patientMedicalCollection,
+    PrescriptionInfo:prescriptionCollection,
+    prescriptioninfo:prescription,
     patientMedicalInfos:patientMedicalInfo,
     Doctor : doctorCollection,
     Role : role
