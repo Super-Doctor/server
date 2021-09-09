@@ -87,6 +87,7 @@ console.log('authenticateBasic');
             const parsedToken = jwt.verify(token , SECRET);
             const patient = await this.findOne({where : {email : parsedToken.email}});
             if(patient){
+                // console.log('pppppppaaaatienmm',patient);
                 return patient;
             }
             throw new Error('patient Not Found');

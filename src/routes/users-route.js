@@ -4,7 +4,7 @@ const express = require('express');
 const authRouter = express.Router();
 
 
-const { Doctor, Patient,Role } = require('../models/index');
+const { Doctor, Patient,Role,patient, doctor } = require('../models/index');
 const basicauth = require('../middlewares/basic-auth');
 const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
@@ -49,8 +49,13 @@ authRouter.get('/signin/:role', basicauth, async (req, res) => {
     res.status(200).json(user);
 });
 
-authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, next) => {
-    const userRecords = await User.findAll({});
+authRouter.get('/allpatients', bearerAuth, async (req, res, next) => {
+    const userRecords = await patient.findAll({});
+    const list = userRecords.map(user => user.email);
+    res.status(200).json(list);
+});
+authRouter.get('/alldoctors', bearerAuth, async (req, res, next) => {
+    const userRecords = await doctor.findAll({});
     const list = userRecords.map(user => user.userName);
     res.status(200).json(list);
 });
