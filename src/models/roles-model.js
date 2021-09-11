@@ -30,8 +30,8 @@ const rolesModel = (sequelize, DataTypes) => sequelize.define('roles', {
         get() {
             const acl = {
                 patient: ['read', 'create','update-medicalRecord','delete-medicalRecord'],
-                doctor: ['read','read-medicalinfo', 'answer', 'create-prescription', 'update-prescription','delete-presecription', 'update'],
-                manager: ['read', 'create', 'delete', 'update'],
+                doctor: ['read','read-medicalinfo','update-medicalRecord','delete-medicalRecord', 'answer', 'create-prescription', 'update-prescription','delete-presecription', 'update'],
+                manager: ['read', 'create', 'delete-manager', 'update-doctor','update-patient','delete-doctor','delete-patient'],
             };
 
             return acl[this.role]

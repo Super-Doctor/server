@@ -1,6 +1,6 @@
 'use strict';
 
-const { doctor, patient,Role  } = require('../models/index');
+const { doctor, patient,Role,manager  } = require('../models/index');
 
 module.exports =async (req, res, next) => {
     if (!req.headers.authorization) {
@@ -47,6 +47,25 @@ if(req.params.role=='patient'){
      catch (e) {
         Error();
     }}
+    else if(req.params.role=='manager'){
+        try  {
+        let validUser = await manager.authenticateToken(token);
+
+        req.user = validUser;
+        req.token = validUser.token;
+        console.log('valid userrr',validUser);
+        const capability= await Role.findOne({where: {id :validUser.roleId }})
+        const capabilities=capability.capabilities
+        req.user={
+            validUser,
+            capabilities
+        }
+
+        next()
+    }
+ catch (e) {
+    Error();
+}}
 
       function Error() {
         next('Invalid Token');

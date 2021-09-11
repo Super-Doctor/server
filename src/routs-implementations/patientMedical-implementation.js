@@ -5,7 +5,7 @@ const router = express.Router();
 
 const uuid = require('uuid').v4;
 
-const {  PatientMedicalInfo,PatientInfo,Patient,Doctor } = require('../models/index');
+const {  PatientMedicalInfo,PatientInfo,Patient,Doctor,patientMedicalInfos } = require('../models/index');
 const basicauth = require('../middlewares/basic-auth');
 const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
@@ -35,15 +35,15 @@ router.get('/allmedicalinfos', async (req, res, next) => {
 });
 // router.get('/medicalinfos/:id',bearerAuth,permissions('read'), async (req, res, next) => {
 
-router.get('/medicalinfos/:id/:role', async (req, res, next) => {
+router.get('/medicalinfos/:id', async (req, res, next) => {
     let id = req.params.id;  
     id=String(id);
     let medicalRecord = await Patient.get(id)  
-    let medicalRecord2 = await PatientInfo.get()  
+    let medicalRecord2 = await PatientMedicalInfo.get()  
 
     const allInfo={
         patientInfo:medicalRecord,
-        // allmedicalInfo:medicalRecord2
+        allmedicalInfo:medicalRecord2
     }
     
     res.status(200).json(allInfo);

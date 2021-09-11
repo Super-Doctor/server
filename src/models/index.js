@@ -9,6 +9,7 @@ const patientModel = require('./patient-model');
 const patientRecord = require('./patientInfoModel');
 const patientMedicalRecord = require('./patientMedical');
 const doctorModel = require('./doctor-model');
+const managerModel=require('./managerModel');
 const roleModel = require('./roles-model');
 const presecriptionModel=require('../models/presecriptionModel');
 
@@ -27,6 +28,7 @@ const patient = patientModel(sequelize , DataTypes);
 const patientInfo = patientRecord(sequelize,DataTypes);
 const patientMedicalInfo = patientMedicalRecord(sequelize,DataTypes);
 const doctor = doctorModel(sequelize, DataTypes);
+const manager = managerModel(sequelize, DataTypes);
 const role = roleModel(sequelize, DataTypes);
 const prescription=presecriptionModel(sequelize, DataTypes);
 
@@ -55,6 +57,7 @@ patientMedicalInfo.belongsTo(patient , { foreignKey: 'patientId', targetKey: 'id
 
 const patientCollection = new collections(patient);
 const doctorCollection = new collections(doctor);
+const managerCollection=new collections(manager);
 const patientInfoCollection = new collections(patientInfo);
 const patientMedicalCollection = new collections(patientMedicalInfo);
 const roleCollection = new collections(role);
@@ -74,6 +77,9 @@ module.exports = {
     prescriptioninfo:prescription,
     patientMedicalInfos:patientMedicalInfo,
     Doctor : doctorCollection,
-    Role : role
+    Manager:managerCollection,
+    manager:manager,
+    Role : role,
+    RoleCoo:roleCollection,
 }
 

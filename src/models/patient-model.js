@@ -23,6 +23,7 @@ const patientsModel = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
 
         password: {
