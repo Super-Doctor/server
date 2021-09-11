@@ -155,6 +155,18 @@ router.delete('/deleteManager/:id/:role',bearerAuth, permissions('delete-manager
     res.status(201).json(output);
 });
 
+router.put('/updateManager/:id/:role',bearerAuth, permissions('update-manager'), async (req, res, next) => {
+    const managerInfo = req.body;
+    const infoId = req.params.id;
+
+
+    const managerRecord = await Manager.update(infoId,managerInfo);
+    const output = {
+        managerInformation: managerRecord
+    }
+    res.status(201).json(output);
+});
+
 
 
 module.exports = router;
