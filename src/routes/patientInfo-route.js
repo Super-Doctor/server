@@ -7,12 +7,14 @@ const { doctors } = require('../models/doctor-model');
 const { patientInfos,PatientInfo } = require('../models/index')
 const basicAuth = require('../middlewares/basic-auth')
 const bearerAuth = require('../middlewares/bearer-auth')
+const permissions = require('../middlewares/acl');
 
-authRouter.post('/addInfo', async (req, res, next) => {
+
+authRouter.post('/addInfo/:role',bearerAuth,permissions('create'), async (req, res, next) => {
   try {
-    let infoRecord = await patientInfos.create(req.body);
+    let infoRecord = await PatientInfo.create(req.body);
     const output = {
-        patientInfos: infoRecord,
+      PatientInfo: infoRecord,
     };
     res.status(200).json(output);
   } catch (e) {

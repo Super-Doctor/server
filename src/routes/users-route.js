@@ -4,7 +4,7 @@ const express = require('express');
 const authRouter = express.Router();
 
 
-const { Doctor, Patient,Role,patient, doctor } = require('../models/index');
+const { Doctor, Patient,Role,patient, doctor, Manager } = require('../models/index');
 const basicauth = require('../middlewares/basic-auth');
 const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
@@ -37,6 +37,18 @@ authRouter.post('/signup/:role', async (req, res, next) => {
             next(e.message)
         }
     }
+    else if (req.params.role == 'manager') {
+        try {
+            const managerRecord = await Manager.create(userInfo);
+            const managerOutput = {
+                manager: managerRecord,
+                token: managerRecord.token
+            }
+            res.status(201).json(managerOutput);
+        } catch (e) {
+            next(e.message)
+        }
+    }
 
 });
 
@@ -49,15 +61,34 @@ authRouter.get('/signin/:role', basicauth, async (req, res) => {
     res.status(200).json(user);
 });
 
-authRouter.get('/allpatients', bearerAuth, async (req, res, next) => {
+authRouter.get('/allpatients', async (req, res, next) => {
     const userRecords = await patient.findAll({});
-    const list = userRecords.map(user => user.email);
-    res.status(200).json(list);
+    const list = userRecords.map(user => user.userName);
+    const list2 = userRecords.map(user => user.email);
+    const list3 = userRecords.map(user => user.token);
+
+    const all={
+        PatientName:list,
+        PatientEmail:list2,
+        Token:list3
+    }
+
+    res.status(200).json(all);
 });
-authRouter.get('/alldoctors', bearerAuth, async (req, res, next) => {
+authRouter.get('/alldoctors', async (req, res, next) => {
     const userRecords = await doctor.findAll({});
     const list = userRecords.map(user => user.userName);
-    res.status(200).json(list);
+    const list2 = userRecords.map(user => user.email);
+    const list3 = userRecords.map(user => user.token);
+
+    const all={
+        DoctorName:list,
+        DoctorEmail:list2,
+        Token:list3
+
+    }
+
+    res.status(200).json(all);
 });
 
 
