@@ -11,6 +11,7 @@ const userRouter = require('./routes/users-route');
 const roleRouter = require('./routes/roles-route');
 const InfoRouter = require('./routes/patientInfo-route');
 const controlRouter = require('./routes/controlRout');
+const bookroute = require('./routes/booking-route');
 
 
 
@@ -23,7 +24,7 @@ app.use(userRouter);
 app.use(InfoRouter);
 app.use(medicalInfoRouter);
 app.use(controlRouter);
-
+app.use(bookroute);
 app.use('*' , notFoundHandler);
 app.use(internalServerError);
 
