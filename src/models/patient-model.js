@@ -49,16 +49,16 @@ const patientsModel = (sequelize, DataTypes) => {
         },
         
         
-        doctorId : {
-            type: DataTypes.STRING,
-            allowNull: false,
-            // foreignKey: true,
-            // references : {
-            //     model : 'doctors',
-            //     key : 'id'
-            // }
+        // doctorId : {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        //     // foreignKey: true,
+        //     // references : {
+        //     //     model : 'doctors',
+        //     //     key : 'id'
+        //     // }
 
-        }
+        // }
         
 
     });

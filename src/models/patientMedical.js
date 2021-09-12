@@ -31,6 +31,11 @@ const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientM
         allowNull: false,
     },
 
+    doctorId : {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
     patientId: {
         type: DataTypes.STRING,
         allowNull: false,
