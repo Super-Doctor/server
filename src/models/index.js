@@ -13,6 +13,8 @@ const managerModel=require('./managerModel');
 const roleModel = require('./roles-model');
 const presecriptionModel=require('../models/presecriptionModel');
 
+const departmentModel = require('./departmentModel')
+
 const collections=require('./library/collection');
 
 const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim@localhost:5432/hospital"
@@ -31,8 +33,16 @@ const doctor = doctorModel(sequelize, DataTypes);
 const manager = managerModel(sequelize, DataTypes);
 const role = roleModel(sequelize, DataTypes);
 const prescription=presecriptionModel(sequelize, DataTypes);
+const department = departmentModel(sequelize,DataTypes);
 
 // To create the relations
+// relations between department and doctor and patient
+department.hasMany(doctor,{sourceKey: 'id', foreignKey: 'departmentId'});  //  departmentId ==> doctor model
+doctor.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
+
+department.hasMany(patient, { sourceKey: 'id', foreignKey: 'departmentId' });  //  departmentId ==> patient medical model
+patient.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
+
 //relations between doctor and patients
 doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
 patient.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
