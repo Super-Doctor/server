@@ -15,7 +15,7 @@ const presecriptionModel=require('../models/presecriptionModel');
 
 const collections=require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres@localhost:5432/HospitalProj"
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim@localhost:5432/hospital"
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
