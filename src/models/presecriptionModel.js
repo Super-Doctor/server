@@ -29,8 +29,13 @@ const presecriptionsModel = (sequelize, DataTypes) =>  sequelize.define('presecr
         doctorId: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },
 
+
+        patientId : {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
 
 });
 

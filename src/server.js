@@ -6,11 +6,11 @@ app.use(express.json());
 
 const notFoundHandler = require('./errors-handler/404');
 const internalServerError = require('./errors-handler/500');
-const medicalInfoRouter=require('./routs-implementations/patientMedical-implementation');
+const medicalInfoRouter=require('./routes/patientMedical-implementation');
 const userRouter = require('./routes/users-route');
 const roleRouter = require('./routes/roles-route');
 const InfoRouter = require('./routes/patientInfo-route');
-const controlRouter = require('./routs-implementations/controlRout');
+const controlRouter = require('./routes/controlRout');
 
 
 
