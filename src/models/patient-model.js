@@ -23,6 +23,7 @@ const patientsModel = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
 
         password: {
@@ -49,7 +50,7 @@ const patientsModel = (sequelize, DataTypes) => {
         
         
         doctorId : {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             // foreignKey: true,
             // references : {
@@ -70,7 +71,9 @@ const patientsModel = (sequelize, DataTypes) => {
     });
 
     patientModel.authenticateBasic = async function (email, password) {
-        const patient = await this.findOne({ where: { email } });
+console.log('authenticateBasic');
+        const patient = await this.findOne({ where: { email:email } });
+        // console.log(patient);
         const valid = await bcrypt.compare(password, patient.password);
 
         if (valid) {
@@ -85,6 +88,7 @@ const patientsModel = (sequelize, DataTypes) => {
             const parsedToken = jwt.verify(token , SECRET);
             const patient = await this.findOne({where : {email : parsedToken.email}});
             if(patient){
+                // console.log('pppppppaaaatienmm',patient);
                 return patient;
             }
             throw new Error('patient Not Found');

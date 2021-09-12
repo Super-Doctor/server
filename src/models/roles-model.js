@@ -14,14 +14,24 @@ const rolesModel = (sequelize, DataTypes) => sequelize.define('roles', {
         type: DataTypes.STRING,
         allowNull : false
     },
+    token: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return jwt.sign({ email: this.email }, SECRET)
+        },
+        set(tokenObject) {
+            let token = jwt.sign(tokenObject, SECRET);
+            return token;
+        }
+    },
  
     capabilities: {
         type: DataTypes.VIRTUAL,
         get() {
             const acl = {
-                patient: ['read', 'create'],
-                doctor: ['read', 'answer', 'create-prescription', 'update-prescription', 'update'],
-                manager: ['read', 'create', 'delete', 'update'],
+                patient: ['read', 'create','update-medicalRecord','delete-medicalRecord'],
+                doctor: ['read','read-medicalinfo','update-medicalRecord','delete-medicalRecord', 'answer', 'create-prescription', 'update-prescription','delete-presecription', 'update'],
+                manager: ['read', 'create','update-manager', 'delete-manager', 'update-doctor','update-patient','delete-doctor','delete-patient'],
             };
 
             return acl[this.role]

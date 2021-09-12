@@ -8,8 +8,8 @@ const bcrypt = require('bcrypt');
 const { Sequelize, DataTypes } = require('sequelize');
 const SECRET = process.env.SECRET;
 
-const doctorsModel = (sequelize, DataTypes) => {
-    const doctorModel = sequelize.define('doctors', {
+const managersModel = (sequelize, DataTypes) => {
+    const managerModel = sequelize.define('managers', {
         id: {
             type: DataTypes.STRING,
             primaryKey: true
@@ -22,6 +22,7 @@ const doctorsModel = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+            
         },
 
         password: {
@@ -52,38 +53,38 @@ const doctorsModel = (sequelize, DataTypes) => {
 
     });
 
-    doctorModel.beforeCreate(async (doctor) => {
-        let hashedPassword = await bcrypt.hash(doctor.password, 10);
-        doctor.password = hashedPassword;
+    managerModel.beforeCreate(async (manager) => {
+        let hashedPassword = await bcrypt.hash(manager.password, 10);
+        manager.password = hashedPassword;
         let id = uuid();
-        doctor.id = id;
+        manager.id = id;
     });
 
-    doctorModel.authenticateBasic = async function (email, password) {
-        const doctor = await this.findOne({ where: { email } });
-        const valid = await bcrypt.compare(password, doctor.password);
+    managerModel.authenticateBasic = async function (email, password) {
+        const manager = await this.findOne({ where: { email } });
+        const valid = await bcrypt.compare(password, manager.password);
 
         if (valid) {
-            return doctor;
+            return manager;
         }
 
-        throw new Error("Invalid doctor");
+        throw new Error("Invalid manager");
     }
 
-    doctorModel.authenticateToken = async function (token) {
+    managerModel.authenticateToken = async function (token) {
         try {
             const parsedToken = jwt.verify(token, SECRET);
-            const doctor = await this.findOne({ where: { email: parsedToken.email } });
-            if (doctor) {
-                return doctor;
+            const manager = await this.findOne({ where: { email: parsedToken.email } });
+            if (manager) {
+                return manager;
             }
-            throw new Error('doctor Not Found');
+            throw new Error('manager Not Found');
         }
         catch (error) {
             throw new Error(error.message)
         }
     }
-    return doctorModel;
+    return managerModel;
 }
 
-module.exports = doctorsModel;
+module.exports = managersModel;

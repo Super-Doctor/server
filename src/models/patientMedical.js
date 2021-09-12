@@ -1,10 +1,10 @@
 const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientMedicalInfo', {
-    id:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
+    // id:{
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     primaryKey: true,
 
-    },
+    // },
 
     checkInDate: {
         type: DataTypes.STRING,
@@ -21,10 +21,10 @@ const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientM
         allowNull: false,
     },
 
-    // doctorName : {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    // },
+    doctorName : {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 
     doctorReport : {
         type: DataTypes.STRING,
@@ -32,7 +32,7 @@ const patientMedicalModel = (sequelize, DataTypes) => sequelize.define('patientM
     },
 
     patientId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
     }
 
