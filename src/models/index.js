@@ -3,34 +3,39 @@
 
 require('dotenv').config();
 
-const {Sequelize , DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const patientModel = require('./patient-model');
 const patientRecord = require('./patientInfoModel');
 const patientMedicalRecord = require('./patientMedical');
 const doctorModel = require('./doctor-model');
-const managerModel=require('./managerModel');
+const managerModel = require('./managerModel');
 const roleModel = require('./roles-model');
-const presecriptionModel=require('../models/presecriptionModel');
+const presecriptionModel = require('../models/presecriptionModel');
 
-const collections=require('./library/collection');
+const anwsersModel = require('./answersModel');
+const questionModel = require('./questionsModel');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim@localhost:5432/hospital"
+const collections = require('./library/collection');
+
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://maram997@localhost:5432/doctors"
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
 // postgres://postgres@localhost:5432/hospital
 
 
-const sequelize = new Sequelize (SQL_DATABASE_URL, {});
+const sequelize = new Sequelize(SQL_DATABASE_URL, {});
 
-const patient = patientModel(sequelize , DataTypes);
-const patientInfo = patientRecord(sequelize,DataTypes);
-const patientMedicalInfo = patientMedicalRecord(sequelize,DataTypes);
+const patient = patientModel(sequelize, DataTypes);
+const patientInfo = patientRecord(sequelize, DataTypes);
+const patientMedicalInfo = patientMedicalRecord(sequelize, DataTypes);
 const doctor = doctorModel(sequelize, DataTypes);
 const manager = managerModel(sequelize, DataTypes);
 const role = roleModel(sequelize, DataTypes);
-const prescription=presecriptionModel(sequelize, DataTypes);
+const prescription = presecriptionModel(sequelize, DataTypes);
+const questions = questionModel(sequelize, DataTypes);
+const answers = anwsersModel(sequelize, DataTypes);
 
 // To create the relations
 //relations between doctor and patients
@@ -49,37 +54,48 @@ doctor.belongsTo(role, { foreignKey: 'roleId', targetKey: 'id' });
 
 //relations between (patientInfo & patientMedicalInfo) and patients
 
-patient.hasOne(patientInfo,{  foreignKey: 'patientId' });
+patient.hasOne(patientInfo, { foreignKey: 'patientId' });
 
-patient.hasMany(patientMedicalInfo , {sourceKey: 'id', foreignKey: 'patientId' });
-patientMedicalInfo.belongsTo(patient , { foreignKey: 'patientId', targetKey: 'id'});
+patient.hasMany(patientMedicalInfo, { sourceKey: 'id', foreignKey: 'patientId' });
+patientMedicalInfo.belongsTo(patient, { foreignKey: 'patientId', targetKey: 'id' });
+
+// Questions and Answers Relations
+patient.hasMany(questions,{sourceKey: 'questionId', foreignKey: 'id'})
+questions.belongsTo(patient,{  foreignKey: 'id', targetKey: 'questionId' });
+questions.hasMany(answers, { sourceKey: 'answerId', foreignKey: 'questionId' });
+answers.belongsTo(questions,{foreignKey : 'questionId', targetKey: 'answerId'})
+doctor.hasOne(answers, {foreignKey: 'doctorId' })
+// answers.belongsTo(doctor,{ foreignKey: 'answerId', targetKey: 'id' });
 
 
 const patientCollection = new collections(patient);
 const doctorCollection = new collections(doctor);
-const managerCollection=new collections(manager);
+const managerCollection = new collections(manager);
 const patientInfoCollection = new collections(patientInfo);
 const patientMedicalCollection = new collections(patientMedicalInfo);
 const roleCollection = new collections(role);
-const prescriptionCollection=new collections(prescription);
-
+const prescriptionCollection = new collections(prescription);
+const answersCollection = new collections(answers);
+const questionsCollection = new collections(questions);
 
 
 module.exports = {
-    db : sequelize,
-    patient:patient,
-    doctor:doctor,
-    Patient : patientCollection,
-    PatientInfo:patientInfoCollection,
-    patientInfos:patientInfo,
-    PatientMedicalInfo : patientMedicalCollection,
-    PrescriptionInfo:prescriptionCollection,
-    prescriptioninfo:prescription,
-    patientMedicalInfos:patientMedicalInfo,
-    Doctor : doctorCollection,
-    Manager:managerCollection,
-    manager:manager,
-    Role : role,
-    RoleCoo:roleCollection,
+    db: sequelize,
+    patient: patient,
+    doctor: doctor,
+    Patient: patientCollection,
+    PatientInfo: patientInfoCollection,
+    patientInfos: patientInfo,
+    PatientMedicalInfo: patientMedicalCollection,
+    PrescriptionInfo: prescriptionCollection,
+    prescriptioninfo: prescription,
+    patientMedicalInfos: patientMedicalInfo,
+    Doctor: doctorCollection,
+    Manager: managerCollection,
+    manager: manager,
+    Role: role,
+    RoleCoo: roleCollection,
+    answers : answersCollection,
+    questions : questionsCollection
 }
 
