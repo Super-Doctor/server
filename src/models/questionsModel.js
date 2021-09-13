@@ -7,11 +7,11 @@ questionText :{
     allowNull : false
 },
 
-questionId : {
-    type : DataTypes.STRING,
-    allowNull: false,
-    primaryKey: true,
-},
+// id : {
+//     type : DataTypes.STRING,
+//     //allowNull: false,
+//     //primaryKey: true,
+// },
 
 patientId:{
     type: DataTypes.STRING,

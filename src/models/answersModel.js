@@ -8,7 +8,7 @@ const AnwsersModel = (sequelize, DataTypes) => sequelize.define('Answers', {
     },
 
     questionId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
 
@@ -18,10 +18,10 @@ const AnwsersModel = (sequelize, DataTypes) => sequelize.define('Answers', {
         type: DataTypes.STRING,
     },
     
-    answerId: {
-        type: DataTypes.STRING,
+    // id: {
+    //     type: DataTypes.STRING,
 
-    },
+    // },
 
 })
 module.exports = AnwsersModel;

@@ -11,7 +11,10 @@ const patientMedicalRecord = require('./patientMedical');
 const doctorModel = require('./doctor-model');
 const managerModel = require('./managerModel');
 const roleModel = require('./roles-model');
-const presecriptionModel = require('../models/presecriptionModel');
+
+const presecriptionModel=require('../models/presecriptionModel');
+const departmentModel = require('./departmentModel')
+const bookingsModel = require('./booking-model')
 
 const anwsersModel = require('./answersModel');
 const questionModel = require('./questionsModel');
@@ -19,6 +22,7 @@ const questionModel = require('./questionsModel');
 const collections = require('./library/collection');
 
 const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://maram997@localhost:5432/doctors"
+
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
@@ -37,7 +41,18 @@ const prescription = presecriptionModel(sequelize, DataTypes);
 const questions = questionModel(sequelize, DataTypes);
 const answers = anwsersModel(sequelize, DataTypes);
 
+const department = departmentModel(sequelize,DataTypes);
+
+const book=bookingsModel(sequelize, DataTypes);
+
 // To create the relations
+// relations between department and doctor and patient
+department.hasMany(doctor,{sourceKey: 'id', foreignKey: 'departmentId'});  //  departmentId ==> doctor model
+doctor.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
+
+department.hasMany(patientMedicalInfo, { sourceKey: 'id', foreignKey: 'departmentId' });  //  departmentId ==> patient medical model
+patientMedicalInfo.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
+
 //relations between doctor and patients
 doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
 patient.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
@@ -60,13 +75,18 @@ patient.hasMany(patientMedicalInfo, { sourceKey: 'id', foreignKey: 'patientId' }
 patientMedicalInfo.belongsTo(patient, { foreignKey: 'patientId', targetKey: 'id' });
 
 // Questions and Answers Relations
-patient.hasMany(questions,{sourceKey: 'questionId', foreignKey: 'id'})
-questions.belongsTo(patient,{  foreignKey: 'id', targetKey: 'questionId' });
-questions.hasMany(answers, { sourceKey: 'answerId', foreignKey: 'questionId' });
-answers.belongsTo(questions,{foreignKey : 'questionId', targetKey: 'answerId'})
+patient.hasMany(questions,{sourceKey: 'id', foreignKey: 'patientId'})
+questions.belongsTo(patient,{  foreignKey: 'patientId', targetKey: 'id' });
+questions.hasMany(answers, { sourceKey: 'id', foreignKey: 'questionId' });
+answers.belongsTo(questions,{foreignKey : 'questionId', targetKey: 'id'})
 doctor.hasOne(answers, {foreignKey: 'doctorId' })
 // answers.belongsTo(doctor,{ foreignKey: 'answerId', targetKey: 'id' });
 
+patient.hasMany(book,{sourceKey: 'id', foreignKey: 'patientId'})
+book.belongsTo(patient,{foreignKey: 'patientId', targetKey: 'id'});
+
+doctor.hasMany(book,{sourceKey: 'id', foreignKey: 'doctorId'})
+book.belongsTo(doctor,{foreignKey: 'doctorId', targetKey: 'id'});
 
 const patientCollection = new collections(patient);
 const doctorCollection = new collections(doctor);
@@ -77,6 +97,8 @@ const roleCollection = new collections(role);
 const prescriptionCollection = new collections(prescription);
 const answersCollection = new collections(answers);
 const questionsCollection = new collections(questions);
+const bookingCollection = new collections(book)
+const departmentCollection = new collections(department)
 
 
 module.exports = {
@@ -96,6 +118,12 @@ module.exports = {
     Role: role,
     RoleCoo: roleCollection,
     answers : answersCollection,
-    questions : questionsCollection
+    questions : questionsCollection,
+    Book :bookingCollection,
+    book :book,
+    Department : departmentCollection,
+    department : department
 }
+
+
 

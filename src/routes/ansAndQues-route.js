@@ -10,7 +10,7 @@ const permissions = require('../middlewares/acl');
 
 
 
-router.post('/question', bearerAuth, permissions('ask'), async (req, res, next) => {
+router.post('/question', bearerAuth, permissions('create'), async (req, res, next) => {
     let ques = req.body;
     try {
         const questionRecord = await questions.create(ques);
