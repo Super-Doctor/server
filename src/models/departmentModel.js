@@ -17,7 +17,6 @@ const departmentModel = (sequelize, DataTypes) => sequelize.define('departmentMo
     workingHours:{
         type:DataTypes.STRING,
         allowNull:false,
-
     },
     workingDays:{
         type:DataTypes.STRING,
