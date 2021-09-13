@@ -11,7 +11,7 @@ const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
 
 
-router.post('/addMedicalInfo/:role',bearerAuth,permissions('create'),  async (req, res, next) => {
+router.post('/addMedicalInfo/:role',bearerAuth,permissions('read-medicalinfo'),  async (req, res, next) => {
     let medicalInfo = req.body;
     try {
         const medicalRecord = await PatientMedicalInfo.create(medicalInfo);
@@ -37,7 +37,7 @@ router.get('/allmedicalinfos', async (req, res, next) => {
 
 router.get('/medicalinfos/:id', async (req, res, next) => {
     let id = req.params.id;  
-    id=String(id);
+    id = String(id);
     let medicalRecord = await Patient.get(id)  
     let medicalRecord2 = await PatientMedicalInfo.get()  
 

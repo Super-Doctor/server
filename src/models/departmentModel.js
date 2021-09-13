@@ -1,6 +1,6 @@
 const departmentModel = (sequelize, DataTypes) => sequelize.define('departmentModel', {
     id:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
 
