@@ -17,7 +17,7 @@ const bookingsModel = require('./booking-model')
 
 const collections=require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres:0000@localhost:5432/hospital"
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim:@localhost:5432/hospital"
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
 // "postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
@@ -43,8 +43,8 @@ const book=bookingsModel(sequelize, DataTypes);
 department.hasMany(doctor,{sourceKey: 'id', foreignKey: 'departmentId'});  //  departmentId ==> doctor model
 doctor.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
 
-department.hasMany(patient, { sourceKey: 'id', foreignKey: 'departmentId' });  //  departmentId ==> patient medical model
-patient.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
+department.hasMany(patientMedicalInfo, { sourceKey: 'id', foreignKey: 'departmentId' });  //  departmentId ==> patient medical model
+patientMedicalInfo.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
 
 //relations between doctor and patients
 doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
@@ -81,6 +81,7 @@ const patientMedicalCollection = new collections(patientMedicalInfo);
 const roleCollection = new collections(role);
 const prescriptionCollection=new collections(prescription);
 const bookingCollection = new collections(book)
+const departmentCollection = new collections(department)
 
 
 module.exports = {
@@ -100,6 +101,8 @@ module.exports = {
     Role : role,
     RoleCoo:roleCollection,
     Book :bookingCollection,
-    book :book
+    book :book,
+    Department : departmentCollection,
+    department : department
 }
 
