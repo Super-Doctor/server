@@ -28,6 +28,10 @@ const doctorsModel = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        departmentId:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
         
 
