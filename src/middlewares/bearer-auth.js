@@ -14,7 +14,7 @@ if(req.params.role=='patient'){
         
         req.user = validUser;
         req.token = validUser.token;
-        console.log('valid userrr',validUser);
+        // console.log('valid userrr',validUser);
         const capability= await Role.findOne({where: {id :validUser.roleId }})
         const capabilities=capability.capabilities
         req.user={
@@ -34,7 +34,7 @@ if(req.params.role=='patient'){
 
             req.user = validUser;
             req.token = validUser.token;
-            console.log('valid userrr',validUser);
+            // console.log('valid userrr',validUser);
             const capability= await Role.findOne({where: {id :validUser.roleId }})
             const capabilities=capability.capabilities
             req.user={
@@ -53,7 +53,7 @@ if(req.params.role=='patient'){
 
         req.user = validUser;
         req.token = validUser.token;
-        console.log('valid userrr',validUser);
+        // console.log('valid userrr',validUser);
         const capability= await Role.findOne({where: {id :validUser.roleId }})
         const capabilities=capability.capabilities
         req.user={

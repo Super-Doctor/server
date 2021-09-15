@@ -56,7 +56,7 @@ router.get('/presecriptioninfos/:id/:role', async (req, res, next) => {
 
 router.delete('/deletepresecriptionInfo/:id/:role',bearerAuth, permissions('delete-presecription'), async (req, res, next) => {
     const infoId = Number(req.params.id)
-    console.log(infoId);
+    // console.log(infoId);
     await PrescriptionInfo.delete(infoId)
 
     const prescriptionRecord = await PrescriptionInfo.get();
@@ -120,7 +120,7 @@ router.put('/updatePatient/:id/:role',bearerAuth, permissions('update-patient'),
 
 router.delete('/deleteDoctor/:id/:role',bearerAuth, permissions('delete-doctor'), async (req, res, next) => {
     const infoId = req.params.id
-    console.log(infoId);
+    // console.log(infoId);
     await Doctor.delete(infoId)
 
     const doctorRecord = await Doctor.get();
@@ -132,7 +132,7 @@ router.delete('/deleteDoctor/:id/:role',bearerAuth, permissions('delete-doctor')
 
 router.delete('/deletePatient/:id/:role',bearerAuth, permissions('delete-patient'), async (req, res, next) => {
     const infoId = req.params.id
-    console.log(infoId);
+    // console.log(infoId);
     await Patient.delete(infoId)
 
     const patientRecord = await Patient.get();
@@ -145,7 +145,7 @@ router.delete('/deletePatient/:id/:role',bearerAuth, permissions('delete-patient
 
 router.delete('/deleteManager/:id/:role',bearerAuth, permissions('delete-manager'), async (req, res, next) => {
     const infoId = req.params.id
-    console.log(infoId);
+    // console.log(infoId);
     await Manager.delete(infoId)
 
     const managerRecord = await Manager.get();

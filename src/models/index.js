@@ -21,7 +21,8 @@ const questionModel = require('./questionsModel');
 
 const collections = require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://postgres:0000@localhost:5432/hospital"
+const SQL_DATABASE_URL ="postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
+
 
 
 // postgres://vujdqmsr:l1rg86zG064FLumpdEWpOHSKwHV5Yvp8@chunee.db.elephantsql.com/vujdqmsr
@@ -54,8 +55,8 @@ department.hasMany(patientMedicalInfo, { sourceKey: 'id', foreignKey: 'departmen
 patientMedicalInfo.belongsTo(department, { foreignKey: 'departmentId', targetKey: 'id' });
 
 //relations between doctor and patients
-doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
-patient.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
+// doctor.hasMany(patient, { sourceKey: 'id', foreignKey: 'doctorId' });
+// patient.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
 
 doctor.hasMany(prescription, { sourceKey: 'id', foreignKey: 'doctorId' });
 prescription.belongsTo(doctor, { foreignKey: 'doctorId', targetKey: 'id' });
@@ -124,6 +125,3 @@ module.exports = {
     Department : departmentCollection,
     department : department
 }
-
-
-

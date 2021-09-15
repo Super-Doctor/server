@@ -24,8 +24,8 @@ authRouter.post('/bookAppointment', async (req, res, next) => {
 
 
 
-authRouter.get('/AllAppointments', async (req, res, next) => {
-  const info = await book.findAll({});
+authRouter.get('/AllAppointments/:doctorId', async (req, res, next) => {
+  const info = await book.findAll({where : {doctorId : req.params.doctorId}});
  
 
   res.status(200).json(info);
@@ -36,7 +36,7 @@ authRouter.get('/AllAppointments', async (req, res, next) => {
 
 authRouter.delete('/deleteAppointments/:id/:role',bearerAuth, permissions('delete-Appointments'), async (req, res, next) => {
     const infoId = req.params.id;
-    console.log(infoId);
+    // console.log(infoId);
     await Book.delete(infoId)
 
     const AppointmentsRecord = await Book.get();
