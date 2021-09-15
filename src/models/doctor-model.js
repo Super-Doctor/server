@@ -16,12 +16,13 @@ const doctorsModel = (sequelize, DataTypes) => {
         },
         userName: {
             type: DataTypes.STRING,
+            unique: true,
+
         },
 
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
 
         password: {
