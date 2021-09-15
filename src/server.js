@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+const cors = require('cors');
+app.use(cors());
 
 const notFoundHandler = require('./errors-handler/404');
 const internalServerError = require('./errors-handler/500');

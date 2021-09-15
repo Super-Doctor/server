@@ -20,6 +20,7 @@ const bookingsModel = (sequelize, DataTypes) => sequelize.define('book', {
         Date: {
             type: DataTypes.STRING,
             allowNull: false,
+            
         },
 
         time: {
