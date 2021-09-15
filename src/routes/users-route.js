@@ -63,32 +63,34 @@ authRouter.get('/signin/:role', basicauth, async (req, res) => {
 
 authRouter.get('/allpatients', async (req, res, next) => {
     const userRecords = await patient.findAll({});
-    const list = userRecords.map(user => user.userName);
-    const list2 = userRecords.map(user => user.email);
-    const list3 = userRecords.map(user => user.token);
+    const list = userRecords.map(user =>{
+        return (
+            {
+                userName : user.userName,
+                id : user.id
+            }
+        )
+     });
+  
 
-    const all={
-        PatientName:list,
-        PatientEmail:list2,
-        Token:list3
-    }
+  
 
-    res.status(200).json(all);
+    res.status(200).json(list);
 });
 authRouter.get('/alldoctors', async (req, res, next) => {
     const userRecords = await doctor.findAll({});
-    const list = userRecords.map(user => user.userName);
-    const list2 = userRecords.map(user => user.email);
-    const list3 = userRecords.map(user => user.token);
+    const list = userRecords.map(user =>{
+        return (
+            {
+                userName : user.userName,
+                id : user.id
+            }
+        )
+     });
 
-    const all={
-        DoctorName:list,
-        DoctorEmail:list2,
-        Token:list3
+   
 
-    }
-
-    res.status(200).json(all);
+    res.status(200).json(list);
 });
 
 

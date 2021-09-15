@@ -4,33 +4,67 @@
     let userID
 
     let usersList = document.getElementById('subject')
+    let videocall = document.getElementById('videocall');
     let userOption
+     // //  local storage
+     const userStorageData = localStorage.getItem('userData');
+     if (userStorageData == null) {
+         location.replace("https://super-doctors.herokuapp.com/")
+ 
+     }
+     const userStorageDataFromJSON = JSON.parse(userStorageData)
+     console.log(userStorageDataFromJSON.user)
+     userName = userStorageDataFromJSON.user.userName
+     let myID = userStorageDataFromJSON.user.id
+     let role = userStorageDataFromJSON.user.roleId
+     console.log(role);
     getUsers()
 
+
     async function getUsers() {
-        await axios.get('https://gold-team-mid-project.herokuapp.com/alluser').then(data => {
-            console.log(data.data);
-            data.data.forEach(users => {
-                userOption = document.createElement('option')
-                userOption.value = users.id
-                userOption.textContent = users.name
-
-                usersList.appendChild(userOption)
-
-               
+        if(role == 2) {
+            await axios.get('https://super-doctors.herokuapp.com/allpatients').then(data => {
+                console.log(data.data);
+                data.data.forEach(users => {
+                    userOption = document.createElement('option')
+                    userOption.value = users.id
+                    userOption.textContent = users.userName
+    
+                    usersList.appendChild(userOption)
+    
+                   
+                })
+                usersList.onchange = function a() {
+                    userID = usersList.value
+                    console.log(userID)
+                }
             })
-            usersList.onchange = function a() {
-                userID = usersList.value
-                console.log(userID)
-            }
-        })
+        } else {
+            await axios.get('https://super-doctors.herokuapp.com/alldoctors').then(data => {
+                console.log(data.data);
+                data.data.forEach(users => {
+                    userOption = document.createElement('option')
+                    userOption.value = users.id
+                    userOption.textContent = users.userName
+    
+                    usersList.appendChild(userOption)
+    
+                   
+                })
+                usersList.onchange = function a() {
+                    userID = usersList.value
+                    console.log(userID)
+                }
+            })
+        }
+        
     }
     
     socket.on('newmssg', payload => {
 
 
         let listItem = document.createElement('li')
-        listItem.textContent = payload.massage.username + ' : ' + payload.massage.message
+        listItem.textContent = payload.massage.userName + ' : ' + payload.massage.message
         listItem.classList.add('list-group-item')
         messageList.appendChild(listItem)
 
@@ -44,7 +78,7 @@
     
 
     
-    let curUsername = document.querySelector('.card-header')
+    let curuserName = document.querySelector('.card-header')
 
 
 
@@ -52,22 +86,13 @@
     
     function changeName() {
 
-        console.log(username)
-        socket.emit('change_username', { username: username })
-        curUsername.textContent = username
+        console.log(userName)
+        socket.emit('change_userName', { userName: userName })
+        curuserName.textContent = userName
         
     }
 
-    //  local storage
-    const userStorageData = localStorage.getItem('userData');
-    if (userStorageData == null) {
-        location.replace("https://gold-team-mid-project.herokuapp.com/")
-
-    }
-    const userStorageDataFromJSON = JSON.parse(userStorageData)
-    console.log(userStorageDataFromJSON.user)
-    username = userStorageDataFromJSON.user.user_name
-    let myID = userStorageDataFromJSON.user.id
+   
     changeName()
 
     let message = document.querySelector('#message')
@@ -96,16 +121,44 @@
 
     })
 
+    videocall.addEventListener('click', () => {
+
+        let id = userID
+
+
+
+        
+        socket.emit('new_message', { message: "https://hema-video-chat.herokuapp.com/?room=hospital_1", id: id })
+        let listItem = document.createElement('a')
+        listItem.setAttribute("href", "https://hema-video-chat.herokuapp.com/?room=hospital_1");
+        listItem.textContent = "Me"+ " :: "+" Click Here To Join "
+        listItem.classList.add('list-group-item')
+
+        messageList.appendChild(listItem)
+       
+      
+
+    })
+
     socket.on('receive_message', data => {
         if (myID == data.id) {
 
-            console.log(data)
-            let listItem = document.createElement('li')
-            listItem.textContent = data.username + ' :: ' + data.message
+          if (data.message == "https://hema-video-chat.herokuapp.com/?room=hospital_1") {
+            let listItem = document.createElement('a')
+            listItem.setAttribute("href", "https://hema-video-chat.herokuapp.com/?room=hospital_1");
+            listItem.textContent = data.userName + ' :: '+"Click Here To Join "
             listItem.classList.add('list-group-item')
 
             messageList.appendChild(listItem)
-            console.log('---------------');
+          }
+          else {
+            let listItem = document.createElement('li')
+            listItem.textContent = data.userName + ' :: ' + data.message
+            listItem.classList.add('list-group-item')
+
+            messageList.appendChild(listItem)
+          }
+       
         }
 
 
@@ -126,7 +179,7 @@
 
     // socket.on('typing', data => {
 
-    //     info.textContent = data.username + " is typing..." + data.text
+    //     info.textContent = data.userName + " is typing..." + data.text
     //     setTimeout(() => { info.textContent = '' }, 5000)
     // })
 

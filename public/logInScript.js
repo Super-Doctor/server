@@ -22,21 +22,15 @@ async function logInFunction(event) {
     user_password: userPassword,
   };
 
-  // let data = await axios.post('http://localhost:3000/pet',userData)
-  // getData();
-  // console.log(data);
+  
   signInFunction(userName, userPassword,role);
 }
 
-// async function getData() {
-//   let a = await axios.get("https://gold-team-mid-project.herokuapp.com/pet");
-//   console.log(a);
-// }
-
+//https://super-doctors.herokuapp.com/
 async function signInFunction(userName, userPassword,role) {
 
   // Send a GET request with the authorization header set to
-  let uri = "https://gold-team-mid-project.herokuapp.com/signin/role";
+  let uri = `https://super-doctors.herokuapp.com/signin/${role}`;
 
   let h = new Headers();
   h.append(userName, userPassword);
@@ -46,7 +40,7 @@ async function signInFunction(userName, userPassword,role) {
   // console.log(auth);
 
   let req = new Request(uri, {
-    method: "POST",
+    method: "GET",
     headers: h,
   });
   //credentials: 'same-origin'
@@ -65,9 +59,13 @@ async function signInFunction(userName, userPassword,role) {
       let storageData = JSON.stringify(jsonData);
 
       localStorage.setItem("userData", storageData);
-      location.replace(
-        "https://gold-team-mid-project.herokuapp.com/patientChatPage"
-      );
+    
+      
+        location.replace(
+            "https://super-doctors.herokuapp.com/ChatPage"
+          );
+      
+    
     })
     .catch((err) => {
       console.log("ERROR:", err.message);

@@ -5,7 +5,7 @@
         
 
         let listItem = document.createElement('li')
-        listItem.textContent =  payload.massage.username+' : '+payload.massage.message 
+        listItem.textContent =  payload.massage.userName+' : '+payload.massage.message 
         listItem.classList.add('list-group-item')
         messageList.appendChild(listItem)
     
@@ -15,15 +15,15 @@
     });
     
 
-    let username = document.querySelector('#username')
-    let usernameBtn = document.querySelector('#usernameBtn')
-    let curUsername = document.querySelector('.card-header')
+    let userName = document.querySelector('#userName')
+    let userNameBtn = document.querySelector('#userNameBtn')
+    let curuserName = document.querySelector('.card-header')
 
-    usernameBtn.addEventListener('click', e => {
-        console.log(username.value)
-        socket.emit('change_username', { username: username.value })
-        curUsername.textContent = username.value
-        username.value = ''
+    userNameBtn.addEventListener('click', e => {
+        console.log(userName.value)
+        socket.emit('change_userName', { userName: userName.value })
+        curuserName.textContent = userName.value
+        userName.value = ''
     })
   
 
@@ -41,7 +41,7 @@
         
             console.log(data)
             let listItem = document.createElement('li')
-            listItem.textContent =  data.username + ': ' + data.message
+            listItem.textContent =  data.userName + ': ' + data.message
             listItem.classList.add('list-group-item')
             messageList.appendChild(listItem)
         
@@ -58,14 +58,14 @@
     })
 
     socket.on('typing', data => {
-        info.textContent = data.username + " is typing..." + data.text
+        info.textContent = data.userName + " is typing..." + data.text
         setTimeout(() => { info.textContent = '' }, 5000)
     })
 
 
 
     socket.on('typing', data => {
-        socket.broadcast.emit('typing', { username: socket.username })
+        socket.broadcast.emit('typing', { userName: socket.userName })
     })
 
 })()
