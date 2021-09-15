@@ -4,8 +4,10 @@ const base64 = require('base-64');
 const { doctor, patient,Role } = require('../models/index');
 
 module.exports = async (req, res, next) => {
-    if (!req.headers.authorization) {
-        return Error();
+    if (!req.headers.authorization)
+     {
+        next('invalid login')
+        return ;
     }
 
     let basic = req.headers.authorization.split(' ').pop();

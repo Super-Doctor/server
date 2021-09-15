@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const notFoundHandler = require('./errors-handler/404');
+const errorHandler = require('./errors-handler/404');
 const internalServerError = require('./errors-handler/500');
 const medicalInfoRouter=require('./routes/patientMedical-implementation');
 const userRouter = require('./routes/users-route');
@@ -20,6 +20,18 @@ const answerAndQuestion = require('./routes/ansAndQues-route')
 app.get('/' , (req,res)=>{
     res.status(200).send('Every Thing Is Working Good... :)');
 })
+
+app.get('/home' , (req,res)=>{
+  res.status(200).send('welcome');
+})
+
+
+app.get('/bad', badReq);
+
+function badReq(req, res) {
+  throw new Error('Something went wrong !!!!!');
+}
+
 app.use(roleRouter)
 app.use(userRouter);
 app.use(InfoRouter);
@@ -28,7 +40,7 @@ app.use(controlRouter);
 app.use(bookroute);
 app.use(departmentRoutes)
 app.use(answerAndQuestion)
-app.use('*' , notFoundHandler);
+app.use('*' , errorHandler);
 app.use(internalServerError);
 
 
