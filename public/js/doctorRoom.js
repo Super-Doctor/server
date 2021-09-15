@@ -5,6 +5,8 @@
 
     let usersList = document.getElementById('subject')
     let videocall = document.getElementById('videocall');
+    let title = document.getElementById("title");
+    let avilableUsers = document.getElementById("avilable");
     let userOption
      // //  local storage
      const userStorageData = localStorage.getItem('userData');
@@ -23,6 +25,8 @@
 
     async function getUsers() {
         if(role == 2) {
+            title.innerHTML = "Doctor View"
+            avilableUsers.innerHTML = " Avilable Patient "
             await axios.get('https://super-doctors.herokuapp.com/allpatients').then(data => {
                 console.log(data.data);
                 data.data.forEach(users => {
@@ -40,6 +44,9 @@
                 }
             })
         } else {
+            title.innerHTML = "Patient View"
+            avilableUsers.innerHTML = " Avilable Doctor "
+
             await axios.get('https://super-doctors.herokuapp.com/alldoctors').then(data => {
                 console.log(data.data);
                 data.data.forEach(users => {
