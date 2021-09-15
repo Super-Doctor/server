@@ -72,7 +72,7 @@ const patientsModel = (sequelize, DataTypes) => {
     });
 
     patientModel.authenticateBasic = async function (userName, password) {
-console.log('authenticateBasic');
+// console.log('authenticateBasic');
         const patient = await this.findOne({ where: { userName:userName } });
         // console.log(patient);
         const valid = await bcrypt.compare(password, patient.password);

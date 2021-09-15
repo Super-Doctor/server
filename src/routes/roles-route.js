@@ -30,7 +30,7 @@ authRouter.get('/roles', async (req, res, next) => {
 });
 authRouter.delete('/deleteroles/:id', async (req, res, next) => {
   const infoId = Number(req.params.id)
-  console.log(infoId);
+  // console.log(infoId);
   await RoleCoo.delete(infoId)
 
   const roleRecord = await Role.findAll({});

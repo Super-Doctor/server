@@ -62,7 +62,7 @@ const bookingsModel = (sequelize, DataTypes) => {
                 if(bookingDate.getTime()==(new Date( book.Date)).getTime()){
                     throw new Error("Invalid date");
                 }
-                console.log('date',book.Date);
+                // console.log('date',book.Date);
             })
 
             return booking;
