@@ -2,7 +2,7 @@
 
 <head>
     <title>Simple realtime examroom</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
 
     <style>
         #video-grid {
@@ -12,6 +12,13 @@
 
             margin-left: 300px;
         }
+
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+          
+        }
+
 
         video {
             width: 100%;
@@ -27,19 +34,32 @@
             border-radius: 30px;
         }
 
-        .container {
-            width: 70%;
+        #btn{
+            width: 300px;
+            display: block;
+        }
+
+        #btn:hover {
+            transform: scale(1.1);
+            background-color: #0066CC;
             color: black;
-            border: 1px solid #0066CC;
+        }
+        .container {
+            width: 30%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: skyblue;
+            
+            color: black;
+            border: 3px solid black;
             margin-top: 5rem;
             min-height: 25rem;
         }
 
-        .form-control {
-            border: 1px solid #0066CC;
-
-        }
-
+      .inputfield{
+          width: 300px;
+      }
         input {
             width: 80%;
             text-align: center;
@@ -72,7 +92,7 @@
 
 </head>
 
-<body>
+<body style="background-image: url('https://anadea.info/uploads/image_attachment/image/1479/health-app.jpg')">
     <div class="container">
 
         <div class="card">
@@ -81,11 +101,11 @@
                 <fieldset>
 
 
-                    <input required type="text" placeholder="Your Name" name="userName" />
+                    <input required type="text" placeholder="Your Name" name="userName" class = "inputfield" />
 
                     <br />
 
-                    <input required type="password" placeholder="Your Password" name="userPassword" />
+                    <input required type="password" placeholder="Your Password" name="userPassword" class = "inputfield" />
 
                     <br />
                    
@@ -98,7 +118,7 @@
 
                         
 
-                    <input type="submit" />
+                    <input type="submit" id = "btn" />
 
                 </fieldset>
             </form>

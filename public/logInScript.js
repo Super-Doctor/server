@@ -51,7 +51,7 @@ async function signInFunction(userName, userPassword,role) {
         return response.json();
       } else {
         
-        throw new Error("BAD HTTP stuff");
+        throw new Error("Invalid Login");
       }
     })
     .then((jsonData) => {
@@ -71,10 +71,7 @@ async function signInFunction(userName, userPassword,role) {
       console.log("ERROR:", err.message);
 
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Invalid userName or Password',
-        footer: err.message,
+        text: 'Invalid userName or Password or',
       })
     });
 }
