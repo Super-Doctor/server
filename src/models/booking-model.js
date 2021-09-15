@@ -23,6 +23,7 @@ const bookingsModel = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             //December 25, 2021 03:30:00
+
         },
 
         // time: {
