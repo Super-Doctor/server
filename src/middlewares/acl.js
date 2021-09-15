@@ -3,9 +3,9 @@
 module.exports = (capability) => {
 
   return (req, res, next) => {
-console.log(req.user);
+// console.log(req.user);
     try {
-      console.log('paaaaa',req.user);
+      // console.log('paaaaa',req.user);
       if (req.user.capabilities.includes(capability)) {
         console.log('Acl this student has capability to :', req.user.capabilities);
         next();

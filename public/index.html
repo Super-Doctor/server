@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Simple realtime examroom</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <style>
+        #video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 300px);
+            grid-auto-rows: 300px;
+
+            margin-left: 300px;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        html,
+        img,
+        .any-image-element {
+            filter: invert(1);
+        }
+
+
+        .btn {
+            background-color: #0066CC;
+            color: white;
+            border-radius: 30px;
+        }
+
+        .container {
+            width: 70%;
+            color: black;
+            border: 1px solid #0066CC;
+            margin-top: 5rem;
+            min-height: 25rem;
+        }
+
+        .form-control {
+            border: 1px solid #0066CC;
+
+        }
+
+        input {
+            width: 80%;
+            text-align: center;
+            position: relative;
+            left: 68px;
+            padding: 5px 20px;
+            margin: 13px 0;
+            box-sizing: border-box;
+            color: #0066CC;
+            border: 2px solid #3A3535;
+            border-radius: 25px;
+
+        }
+
+        h3 {
+            color: #0066CC;
+            text-align: center;
+        }
+
+        fieldset {
+            min-width: 0;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            position: relative;
+            top: 50px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="card">
+            <form id="logInForm" style="height: 400px;">
+                <h3> Sign In </h3>
+                <fieldset>
+
+
+                    <input required type="text" placeholder="Your Name" name="userName" />
+
+                    <br />
+
+                    <input required type="password" placeholder="Your Password" name="userPassword" />
+
+                    <br />
+                   
+                       <select id = "role">
+                           <option value ="doctor">Doctor</option>
+                           <option value ="patient">Patient</option>
+                       </select>
+                       <br />
+                        
+
+                    <input type="submit" />
+
+                </fieldset>
+            </form>
+
+
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="./logInScript.js"></script>
+</body>
+
+</html>

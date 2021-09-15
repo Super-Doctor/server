@@ -12,7 +12,7 @@ const permissions = require('../middlewares/acl');
 // this is for signup
 authRouter.post('/signup/:role', async (req, res, next) => {
     const userInfo = req.body;
-    console.log(userInfo);
+    // console.log(userInfo);
 
     if (req.params.role == 2 || req.params.role == 'doctor' ) {
         try {

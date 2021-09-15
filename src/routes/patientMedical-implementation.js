@@ -52,7 +52,7 @@ router.get('/medicalinfos/:id', async (req, res, next) => {
 
 router.delete('/deleteMedicalInfo/:id/:role',bearerAuth, permissions('delete-medicalRecord'), async (req, res, next) => {
     const infoId = Number(req.params.id)
-    console.log(infoId);
+    // console.log(infoId);
     await PatientMedicalInfo.delete(infoId)
 
     const medicalRecord = await PatientMedicalInfo.get();

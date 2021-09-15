@@ -18,11 +18,24 @@ const bookroute = require('./routes/booking-route');
 const departmentRoutes = require('./routes/department-routes');
 const answerAndQuestion = require('./routes/ansAndQues-route')
 
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get("/doctorChatPage", (req, res) => {
+  // res.redirect(`/${uuidV4()}`)
+  res.sendFile(__dirname + "/views/doctor.html");
+});
+
+app.get("/patientChatPage", (req, res) => {
+  // res.redirect(`/${uuidV4()}`)
+  res.sendFile(__dirname + "/views/patient.html");
+});
 
 
-app.get('/' , (req,res)=>{
-    res.status(200).send('Every Thing Is Working Good... :)');
-})
 app.use(roleRouter)
 app.use(userRouter);
 app.use(InfoRouter);
