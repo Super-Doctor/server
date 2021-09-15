@@ -21,7 +21,7 @@ const questionModel = require('./questionsModel');
 
 const collections = require('./library/collection');
 
-const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim@localhost:5432/hospital"
+const SQL_DATABASE_URL = process.env.SQL_DATABASE_URL || "postgres://ibrahim@localhost:5432/hospital";
 
 
 
