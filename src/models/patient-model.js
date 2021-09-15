@@ -34,7 +34,7 @@ const patientsModel = (sequelize, DataTypes) => {
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ email: this.email }, SECRET)
+                return jwt.sign({ userName: this.userName }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);
@@ -70,9 +70,9 @@ const patientsModel = (sequelize, DataTypes) => {
         patient.id = id;
     });
 
-    patientModel.authenticateBasic = async function (email, password) {
+    patientModel.authenticateBasic = async function (userName, password) {
 console.log('authenticateBasic');
-        const patient = await this.findOne({ where: { email:email } });
+        const patient = await this.findOne({ where: { userName:userName } });
         // console.log(patient);
         const valid = await bcrypt.compare(password, patient.password);
 
@@ -86,7 +86,7 @@ console.log('authenticateBasic');
     patientModel.authenticateToken = async function  (token) {
         try{
             const parsedToken = jwt.verify(token , SECRET);
-            const patient = await this.findOne({where : {email : parsedToken.email}});
+            const patient = await this.findOne({where : {userName : parsedToken.userName}});
             if(patient){
                 // console.log('pppppppaaaatienmm',patient);
                 return patient;
