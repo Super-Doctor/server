@@ -48,6 +48,13 @@ const patientsModel = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+
+
+        gender : {
+            type : DataTypes.STRING,
+            allowNull : false
+        }
+
         
         
         // doctorId : {

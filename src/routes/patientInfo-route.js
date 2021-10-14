@@ -4,7 +4,7 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const { doctors } = require('../models/doctor-model');
-const { patientInfos,PatientInfo } = require('../models/index')
+const { patientInfos,PatientInfo, patient } = require('../models/index')
 const basicAuth = require('../middlewares/basic-auth')
 const bearerAuth = require('../middlewares/bearer-auth')
 const permissions = require('../middlewares/acl');
@@ -23,6 +23,12 @@ authRouter.post('/addInfo/:role',bearerAuth,permissions('create'), async (req, r
 });
 
 
+authRouter.get('/personalinfo/:id', async (req, res, next) => {
+  const info = await patientInfos.findOne({where : {patientId : req.params.id}});
+ 
+
+  res.status(200).json(info);
+});
 
 authRouter.get('/info', async (req, res, next) => {
   const info = await patientInfos.findAll({});

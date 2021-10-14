@@ -53,6 +53,12 @@ const doctorsModel = (sequelize, DataTypes) => {
         roleId: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+
+        
+        gender : {
+            type : DataTypes.STRING,
+            allowNull : false
         }
 
 
