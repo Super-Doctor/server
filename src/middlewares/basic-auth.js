@@ -15,7 +15,10 @@ module.exports = async (req, res, next) => {
 
     if (req.params.role == 'patient') {
         try {
+
+        
             const user = await patient.authenticateBasic(email, password);
+
             const capability = await Role.findOne({ where: { id: user.roleId } });
             const capabilities = capability.capabilities;
             req.user = {
