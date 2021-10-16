@@ -13,10 +13,9 @@ module.exports = async (req, res, next) => {
     let basic = req.headers.authorization.split(' ').pop();
     let [email, password] = base64.decode(basic).split(':');
 
-    if (req.params.role == 'patient') {
         try {
 
-        
+        if(await patient.authenticateBasic(email, password)){
             const user = await patient.authenticateBasic(email, password);
 
             const capability = await Role.findOne({ where: { id: user.roleId } });
@@ -29,13 +28,11 @@ module.exports = async (req, res, next) => {
             // req.user = await patient.authenticateBasic(email, password );
 
 
-            next();
+            next();}
         } catch (e) {
-            Error()
-        }
-    } else if (req.params.role == 'doctor') {
+        
         try {
-
+if(await doctor.authenticateBasic(email, password)){
             const user = await doctor.authenticateBasic(email, password);
             const capability = await Role.findOne({ where: { id: user.roleId } })
             const capabilities = capability.capabilities
@@ -47,11 +44,11 @@ module.exports = async (req, res, next) => {
 
 
 
-            next();
+            next();}
         } catch (e) {
             Error()
         }
-    }
+        }
 
 
     function Error() {
