@@ -10,9 +10,14 @@ const SECRET = process.env.SECRET;
 
 const doctorsModel = (sequelize, DataTypes) => {
     const doctorModel = sequelize.define('doctors', {
-        doctorName: {
+        id: {
             type: DataTypes.STRING,
-            allowNull: false,
+            primaryKey: true
+        },
+        userName: {
+            type: DataTypes.STRING,
+            unique: true,
+
         },
 
         email: {
@@ -25,16 +30,27 @@ const doctorsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
+        departmentId:{
+            type: DataTypes.STRING,
+            allowNull: false,
         },
 
+        
+        roleId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+
+        
+        gender : {
+            type : DataTypes.STRING,
+            allowNull : false
+        },
 
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ doctorName: this.doctorName }, SECRET)
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id,departmentId:this.departmentId , roleId:this.roleId ,gender:this.gender , capabilities : ['read','read-medicalinfo','update-medicalRecord','delete-medicalRecord', 'answer', 'create-prescription', 'update-prescription','delete-presecription', 'update','delete-Appointments','update-Appointments'] }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);
@@ -43,10 +59,7 @@ const doctorsModel = (sequelize, DataTypes) => {
         },
 
 
-        roleId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
+    
 
 
     });
@@ -59,7 +72,7 @@ const doctorsModel = (sequelize, DataTypes) => {
     });
 
     doctorModel.authenticateBasic = async function (email, password) {
-        const doctor = await this.findOne({ where: { email } });
+        const doctor = await this.findOne({ where: { email : email } });
         const valid = await bcrypt.compare(password, doctor.password);
 
         if (valid) {
@@ -72,7 +85,9 @@ const doctorsModel = (sequelize, DataTypes) => {
     doctorModel.authenticateToken = async function (token) {
         try {
             const parsedToken = jwt.verify(token, SECRET);
+            console.log("<<<<<<<<<<<>>>>>>>>>>>",parsedToken);
             const doctor = await this.findOne({ where: { email: parsedToken.email } });
+            console.log(doctor);
             if (doctor) {
                 return doctor;
             }

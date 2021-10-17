@@ -6,13 +6,21 @@ const jwt = require('jsonwebtoken');
 const uuid = require('uuid').v4;
 const bcrypt = require('bcrypt');
 const { Sequelize,DataTypes } = require('sequelize');
-const SECRET = process.env.SECRET;
+const SECRET = process.env.SECRET || "my_secret";
 
 const patientsModel = (sequelize, DataTypes) => {
     const patientModel = sequelize.define('patients', {
-        patientName: {
+        
+        id:{
+            type: DataTypes.STRING,
+            // allowNull: false,
+            primaryKey: true
+        },
+        userName: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
+
         },
 
         email: {
@@ -25,15 +33,21 @@ const patientsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        id: {
+        roleId : {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            allowNull: false,
+        },
+
+
+        gender : {
+            type : DataTypes.STRING,
+            allowNull : false
         },
 
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ patientName: this.patientName }, SECRET)
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id, roleId:this.roleId ,gender:this.gender , capabilities :['read', 'create','delete-Appointments','update-Appointments'] }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);
@@ -42,16 +56,18 @@ const patientsModel = (sequelize, DataTypes) => {
         },
 
       
-        roleId : {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         
         
-        doctorId : {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
+        // doctorId : {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        //     // foreignKey: true,
+        //     // references : {
+        //     //     model : 'doctors',
+        //     //     key : 'id'
+        //     // }
+
+        // }
         
 
     });
@@ -64,7 +80,9 @@ const patientsModel = (sequelize, DataTypes) => {
     });
 
     patientModel.authenticateBasic = async function (email, password) {
-        const patient = await this.findOne({ where: { email } });
+// console.log('authenticateBasic');
+        const patient = await this.findOne({ where: { email:email } });
+        // console.log(patient);
         const valid = await bcrypt.compare(password, patient.password);
 
         if (valid) {
@@ -79,6 +97,7 @@ const patientsModel = (sequelize, DataTypes) => {
             const parsedToken = jwt.verify(token , SECRET);
             const patient = await this.findOne({where : {email : parsedToken.email}});
             if(patient){
+                // console.log('pppppppaaaatienmm',patient);
                 return patient;
             }
             throw new Error('patient Not Found');
