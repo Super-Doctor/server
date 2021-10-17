@@ -50,7 +50,7 @@ const doctorsModel = (sequelize, DataTypes) => {
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id,departmentId:this.departmentId , roleId:this.roleId ,gender:this.gender }, SECRET)
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id,departmentId:this.departmentId , roleId:this.roleId ,gender:this.gender , capabilities : ['read','read-medicalinfo','update-medicalRecord','delete-medicalRecord', 'answer', 'create-prescription', 'update-prescription','delete-presecription', 'update','delete-Appointments','update-Appointments'] }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);
