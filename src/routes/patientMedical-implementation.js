@@ -35,18 +35,39 @@ router.get('/allmedicalinfos', async (req, res, next) => {
 });
 // router.get('/medicalinfos/:id',bearerAuth,permissions('read'), async (req, res, next) => {
 
-router.get('/medicalinfos/:id', async (req, res, next) => {
-    let id = req.params.id;  
-    id = String(id);
-    let medicalRecord = await Patient.get(id)  
-    let medicalRecord2 = await PatientMedicalInfo.get()  
-
-    const allInfo={
-        patientInfo:medicalRecord,
-        allmedicalInfo:medicalRecord2
-    }
+router.get('/doctorPatients/:id', async (req, res, next) => {
     
-    res.status(200).json(allInfo);
+    let medicalRecord = await patientMedicalInfos.findAll() ;
+    let doctorPatients = medicalRecord.filter(recrod=>{
+        if (recrod.doctorId=  req.params.id ) return true;
+    })
+
+
+  
+    
+    res.status(200).json(doctorPatients);
+
+});
+
+router.get('/patientRecords/:id', async (req, res, next) => {
+    let patientInfo = await Patient.get(req.params.id);
+    let patient = {
+        userName : patientInfo.userName,
+        gender : patientInfo.gender
+    }
+   
+    let medicalRecord = await patientMedicalInfos.findAll() ;
+
+    let patientRecords = medicalRecord.filter(recrod=>{
+        if (recrod.patientId=  req.params.id ) return true;
+    })
+
+    let info = {
+        patientInfo :patient,
+        patientRecords : patientRecords
+    }
+
+    res.status(200).json(info);
 
 });
 
