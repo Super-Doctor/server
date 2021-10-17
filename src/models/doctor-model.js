@@ -53,6 +53,12 @@ const doctorsModel = (sequelize, DataTypes) => {
         roleId: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+
+        
+        gender : {
+            type : DataTypes.STRING,
+            allowNull : false
         }
 
 
@@ -65,8 +71,8 @@ const doctorsModel = (sequelize, DataTypes) => {
         doctor.id = id;
     });
 
-    doctorModel.authenticateBasic = async function (userName, password) {
-        const doctor = await this.findOne({ where: { userName } });
+    doctorModel.authenticateBasic = async function (email, password) {
+        const doctor = await this.findOne({ where: { email : email } });
         const valid = await bcrypt.compare(password, doctor.password);
 
         if (valid) {
@@ -79,7 +85,7 @@ const doctorsModel = (sequelize, DataTypes) => {
     doctorModel.authenticateToken = async function (token) {
         try {
             const parsedToken = jwt.verify(token, SECRET);
-            const doctor = await this.findOne({ where: { userName: parsedToken.userName } });
+            const doctor = await this.findOne({ where: { email: parsedToken.email } });
             if (doctor) {
                 return doctor;
             }

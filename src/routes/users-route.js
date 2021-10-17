@@ -10,11 +10,11 @@ const bearerAuth = require('../middlewares/bearer-auth');
 const permissions = require('../middlewares/acl');
 
 // this is for signup
-authRouter.post('/signup/:role', async (req, res, next) => {
+authRouter.post('/signup', async (req, res, next) => {
     const userInfo = req.body;
-    // console.log(userInfo);
+    console.log(userInfo,'rolleee',userInfo.roleId);
 
-    if (req.params.role == 2 || req.params.role == 'doctor' ) {
+    if (userInfo.roleId == 2  ) {
         try {
             const doctorRecord = await Doctor.create(userInfo);
             const doctorOutput = {
@@ -25,7 +25,7 @@ authRouter.post('/signup/:role', async (req, res, next) => {
         } catch (e) {
             next(e.message)
         }
-    } else if (req.params.role == 'patient') {
+    } else if (userInfo.roleId == 1) {
         try {
             const patientRecord = await Patient.create(userInfo);
             const patientOutput = {
@@ -37,7 +37,7 @@ authRouter.post('/signup/:role', async (req, res, next) => {
             next(e.message)
         }
     }
-    else if (req.params.role == 'manager') {
+    else if (userInfo.roleId == 3) {
         try {
             const managerRecord = await Manager.create(userInfo);
             const managerOutput = {
@@ -49,11 +49,12 @@ authRouter.post('/signup/:role', async (req, res, next) => {
             next(e.message)
         }
     }
+        
 
 });
 
 // this is for signin
-authRouter.get('/signin/:role', basicauth, async (req, res) => {
+authRouter.get('/signin', basicauth, async (req, res) => {
     const user =  req.user
         // capabilities:capability.capabilities
         // token: req.user.token
@@ -82,8 +83,7 @@ authRouter.get('/alldoctors', async (req, res, next) => {
     const list = userRecords.map(user =>{
         return (
             {
-                userName : user.userName,
-                id : user.id
+                user
             }
         )
      });
