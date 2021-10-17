@@ -10,6 +10,7 @@ const SECRET = process.env.SECRET || "my_secret";
 
 const patientsModel = (sequelize, DataTypes) => {
     const patientModel = sequelize.define('patients', {
+        
         id:{
             type: DataTypes.STRING,
             // allowNull: false,

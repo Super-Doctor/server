@@ -1,3 +1,6 @@
+
+
+
 const patientInfoModel=(sequelize,DataTypes)=>sequelize.define('patientInfo',{
   // id:{
   //   type:DataTypes.INTEGER,
