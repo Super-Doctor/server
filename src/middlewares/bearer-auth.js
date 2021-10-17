@@ -29,12 +29,12 @@ if(req.params.role=='patient'){
     }    
 
         else if(req.params.role=='doctor'){
+           
             try  {
             let validUser = await doctor.authenticateToken(token);
-
+            
             req.user = validUser;
             req.token = validUser.token;
-            // console.log('valid userrr',validUser);
             const capability= await Role.findOne({where: {id :validUser.roleId }})
             const capabilities=capability.capabilities
             req.user={

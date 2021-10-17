@@ -36,20 +36,6 @@ const doctorsModel = (sequelize, DataTypes) => {
         },
 
         
-
-
-        token: {
-            type: DataTypes.VIRTUAL,
-            get() {
-                return jwt.sign({ userName: this.userName }, SECRET)
-            },
-            set(tokenObject) {
-                let token = jwt.sign(tokenObject, SECRET);
-                return token;
-            }
-        },
-
-
         roleId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -59,7 +45,21 @@ const doctorsModel = (sequelize, DataTypes) => {
         gender : {
             type : DataTypes.STRING,
             allowNull : false
-        }
+        },
+
+        token: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id,departmentId:this.departmentId , roleId:this.roleId ,gender:this.gender }, SECRET)
+            },
+            set(tokenObject) {
+                let token = jwt.sign(tokenObject, SECRET);
+                return token;
+            }
+        },
+
+
+    
 
 
     });
@@ -85,7 +85,9 @@ const doctorsModel = (sequelize, DataTypes) => {
     doctorModel.authenticateToken = async function (token) {
         try {
             const parsedToken = jwt.verify(token, SECRET);
+            console.log("<<<<<<<<<<<>>>>>>>>>>>",parsedToken);
             const doctor = await this.findOne({ where: { email: parsedToken.email } });
+            console.log(doctor);
             if (doctor) {
                 return doctor;
             }

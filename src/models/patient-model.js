@@ -32,18 +32,6 @@ const patientsModel = (sequelize, DataTypes) => {
             allowNull: false
         },
 
-        token: {
-            type: DataTypes.VIRTUAL,
-            get() {
-                return jwt.sign({ userName: this.userName }, SECRET)
-            },
-            set(tokenObject) {
-                let token = jwt.sign(tokenObject, SECRET);
-                return token;
-            }
-        },
-
-      
         roleId : {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -53,8 +41,20 @@ const patientsModel = (sequelize, DataTypes) => {
         gender : {
             type : DataTypes.STRING,
             allowNull : false
-        }
+        },
 
+        token: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id, roleId:this.roleId ,gender:this.gender  }, SECRET)
+            },
+            set(tokenObject) {
+                let token = jwt.sign(tokenObject, SECRET);
+                return token;
+            }
+        },
+
+      
         
         
         // doctorId : {
