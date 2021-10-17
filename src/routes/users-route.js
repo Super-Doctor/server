@@ -67,8 +67,7 @@ authRouter.get('/allpatients', async (req, res, next) => {
     const list = userRecords.map(user =>{
         return (
             {
-                userName : user.userName,
-                id : user.id
+                user
             }
         )
      });

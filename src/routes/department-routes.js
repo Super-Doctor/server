@@ -22,6 +22,14 @@ authRouter.post('/addDepartment', async (req, res , next )=>{
 })
 
 
+authRouter.get('/allDepartment', async (req, res, next) => {
+
+    const newDepartment = await Department.get();
+    const output = {
+        AllDepartment: newDepartment
+    }
+    res.status(201).json(output);
+});
 
 
 module.exports = authRouter;
