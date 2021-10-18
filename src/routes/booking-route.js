@@ -39,7 +39,7 @@ authRouter.get('/pateintAppointments/:id', async (req, res, next) => {
 });
 
 
-authRouter.delete('/deleteAppointments/:id/:role',bearerAuth, permissions('delete-Appointments'), async (req, res, next) => {
+authRouter.delete('/deleteAppointments/:id/:role', async (req, res, next) => {
     const infoId = req.params.id;
     // console.log(infoId);
     await Book.delete(infoId)
