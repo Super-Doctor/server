@@ -47,7 +47,7 @@ const patientsModel = (sequelize, DataTypes) => {
         token: {
             type: DataTypes.VIRTUAL,
             get() {
-                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id, roleId:this.roleId ,gender:this.gender  }, SECRET)
+                return jwt.sign({ userName: this.userName ,email:this.email,id:this.id, roleId:this.roleId ,gender:this.gender , capabilities :['read', 'create','delete-Appointments','update-Appointments'] }, SECRET)
             },
             set(tokenObject) {
                 let token = jwt.sign(tokenObject, SECRET);
