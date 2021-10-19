@@ -17,7 +17,8 @@ const InfoRouter = require('./routes/patientInfo-route');
 const controlRouter = require('./routes/controlRout');
 const bookroute = require('./routes/booking-route');
 const departmentRoutes = require('./routes/department-routes');
-const answerAndQuestion = require('./routes/ansAndQues-route')
+const answerAndQuestion = require('./routes/ansAndQues-route');
+const {messages} = require('./models/index');
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.get("/", (req, res) => {
@@ -41,43 +42,63 @@ app.use(internalServerError);
 const PORT = process.env.PORT;
   let  server =  app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 const io = socketio(server);
+
+
 io.on("connection", (socket) => {
   console.log("New user connected");
+  socket.on('online' , data=>{
+    console.log(data , ' is online');
+    
+    socket.emit("onlineState" , data)
+  } );
   socket.userName = "Anonymous";
 ////////
-socket.on('join-room', (roomId, userId) => {
+socket.on('join-room',async (roomId, userId) => {
+  console.log(` ${userId} : join-room`);
+  const responsemessages = await messages.findAll();
+  let allmessages = responsemessages.map(messsage=>{
+    return(
+      messsage.dataValues
+    )
+  })
+
+  io.sockets.emit("getallmessages", allmessages);
+
   socket.join(roomId)  // Join the room
   socket.broadcast.emit('user-connected', userId) // Tell everyone else in the room that we joined
   // Communicate the disconnection
-  socket.on('disconnect', () => {
+  socket.on('disconnected', (userId) => {
+    console.log(` ${userId} : disconnect`);
+
       socket.broadcast.emit('user-disconnected', userId)
   })
 })
   socket.on("change_userName", (data) => {
+    console.log(data.userName);
     socket.userName = data.userName;
   });
-  let queueMassage = {
-    massage: {
-    }
-  }
+  let queueMassage = []
+   
+  
   //handle the new message event
-  socket.on('new_message', data => {
-    // console.log("new message")
-    // io.sockets.emit('receive_message', { message: data.message, userName: socket.userName, id: data.id })
+  socket.on('new_message',async data => {
+   
     let id = uuid()
     //add massge to queue 
-    console.log("new message", data.message);
-    io.sockets.emit("receive_message", {
-      message: data.message,
-      userName: socket.userName,
-      id: data.id,
-    });
-    queueMassage.massage[id] = {
-      message: data.message,
-      userName: socket.userName,
-      id: data.id,
-    }
-    console.log('queue massage after save', queueMassage.massage)
+    console.log("new message", data);
+    
+    const messageRecord = await messages.create(data);
+    const response = await messages.findAll();
+    let responsedata = response.map(messsage=>{
+      return(
+        messsage.dataValues
+      )
+    })
+    console.log(messageRecord.dataValues);
+
+    io.sockets.emit("receive_message", responsedata);
+
+    // console.log('queue massage after save', queueMassage)
   });
   //get all massage from queue
   // socket.on('getAll', (myID) => {  //  my

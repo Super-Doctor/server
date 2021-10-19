@@ -20,6 +20,7 @@ const anwsersModel = require('./answersModel');
 const questionModel = require('./questionsModel');
 
 const collections = require('./library/collection');
+const MessagesModel = require('./messages-model');
 
 const SQL_DATABASE_URL ="postgres://gxvtzktj:Z0X7tmh-7pZEdTAwsG1Jd6_VmTXBZJtk@chunee.db.elephantsql.com/gxvtzktj";
 
@@ -45,6 +46,7 @@ const answers = anwsersModel(sequelize, DataTypes);
 const department = departmentModel(sequelize,DataTypes);
 
 const book=bookingsModel(sequelize, DataTypes);
+const messages = MessagesModel(sequelize, DataTypes);
 
 // To create the relations
 // relations between department and doctor and patient
@@ -100,6 +102,7 @@ const answersCollection = new collections(answers);
 const questionsCollection = new collections(questions);
 const bookingCollection = new collections(book)
 const departmentCollection = new collections(department)
+const messageCollection = new collections(messages)
 
 
 module.exports = {
@@ -123,5 +126,6 @@ module.exports = {
     Book :bookingCollection,
     book :book,
     Department : departmentCollection,
-    department : department
+    department : department,
+    messages : messages
 }

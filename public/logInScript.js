@@ -13,31 +13,31 @@ async function logInFunction(event) {
   event.preventDefault();
 
   let userPassword = event.target.userPassword.value;
-  let userName = event.target.userName.value;
+  let email = event.target.email.value;
  let role = userRole.value;
 
-  console.log(`name = ${userName} + pass = ${userPassword}`);
+  console.log(`email = ${email} + password = ${userPassword}`);
   let userData = {
-    user_name: userName,
+    user_name: email,
     user_password: userPassword,
   };
 
   
-  signInFunction(userName, userPassword,role);
+  signInFunction(email, userPassword,role);
 }
 
 //https://super-doctors.herokuapp.com/
-async function signInFunction(userName, userPassword,role) {
+async function signInFunction(email, userPassword,role) {
 
   // Send a GET request with the authorization header set to
-  let uri = `https://super-doctors.herokuapp.com/signin/${role}`;
+  let uri = `https://super-doctors.herokuapp.com/signin`;
 
   let h = new Headers();
-  h.append(userName, userPassword);
-  let encoded = window.btoa(`${userName}:${userPassword}`);
+  h.append(email, userPassword);
+  let encoded = window.btoa(`${email}@gmail.com:${userPassword}`);
   let auth = "Basic " + encoded;
   h.append("Authorization", auth);
-  // console.log(auth);
+  console.log('auth----->',auth);
 
   let req = new Request(uri, {
     method: "GET",
@@ -71,7 +71,7 @@ async function signInFunction(userName, userPassword,role) {
       console.log("ERROR:", err.message);
 
       Swal.fire({
-        text: 'Invalid userName or Password or',
+        text: 'Invalid email or Password or',
       })
     });
 }

@@ -37,7 +37,7 @@ router.get('/allmedicalinfos', async (req, res, next) => {
 
 router.get('/doctorPatients/:id', async (req, res, next) => {
     
-    let medicalRecord = await patientMedicalInfos.findAll() ;
+    let medicalRecord = await patientMedicalInfos.findAll();
     let doctorPatients = medicalRecord.filter(recrod=>{
         if (recrod.doctorId=  req.params.id ) return true;
     })
