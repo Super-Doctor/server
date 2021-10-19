@@ -35,11 +35,13 @@ router.get('/allmedicalinfos', async (req, res, next) => {
 });
 // router.get('/medicalinfos/:id',bearerAuth,permissions('read'), async (req, res, next) => {
 
+
+//return all patients for same doctor .. id for doctor
 router.get('/doctorPatients/:id', async (req, res, next) => {
     
     let medicalRecord = await patientMedicalInfos.findAll();
     let doctorPatients = medicalRecord.filter(recrod=>{
-        if (recrod.doctorId=  req.params.id ) return true;
+        if (recrod.doctorId==  req.params.id ) return true;
     })
 
 
@@ -48,6 +50,7 @@ router.get('/doctorPatients/:id', async (req, res, next) => {
     res.status(200).json(doctorPatients);
 
 });
+//return all patients medical info for same patient .. id for patient
 
 router.get('/patientRecords/:id', async (req, res, next) => {
     let patientInfo = await Patient.get(req.params.id);

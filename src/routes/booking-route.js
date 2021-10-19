@@ -31,10 +31,15 @@ authRouter.get('/AllAppointments/:doctorId', async (req, res, next) => {
   res.status(200).json(info);
 });
 
+authRouter.get('/pateintAppointments/:id', async (req, res, next) => {
+  const info = await book.findAll({where : {patientId : req.params.id}});
+ 
+
+  res.status(200).json(info);
+});
 
 
-
-authRouter.delete('/deleteAppointments/:id/:role',bearerAuth, permissions('delete-Appointments'), async (req, res, next) => {
+authRouter.delete('/deleteAppointments/:id/:role', async (req, res, next) => {
     const infoId = req.params.id;
     // console.log(infoId);
     await Book.delete(infoId)
